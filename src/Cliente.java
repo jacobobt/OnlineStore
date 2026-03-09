@@ -1,5 +1,5 @@
 public abstract class Cliente {
-
+// comentario
     private String nombreCliente;
     private String domicilioCliente;
     private String nifCliente;
