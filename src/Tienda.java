@@ -1,3 +1,4 @@
+// esto es clase tienda
 import java.util.ArrayList;
 
 public class Tienda {
