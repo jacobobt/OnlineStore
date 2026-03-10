@@ -1,3 +1,5 @@
+package onlinestore.modelo;
+
 public class Articulo {
 
     private String codigoArticulo; // ID

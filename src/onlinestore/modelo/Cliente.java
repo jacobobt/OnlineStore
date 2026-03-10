@@ -1,3 +1,5 @@
+package onlinestore.modelo;
+
 public abstract class Cliente {
 
     private String nombreCliente;

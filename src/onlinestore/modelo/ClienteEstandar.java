@@ -1,3 +1,5 @@
+package onlinestore.modelo;
+
 public class ClienteEstandar extends Cliente {
 
     public ClienteEstandar(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {

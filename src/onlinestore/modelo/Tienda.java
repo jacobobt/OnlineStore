@@ -1,4 +1,5 @@
-// esto es clase tienda
+package onlinestore.modelo;
+
 import java.util.ArrayList;
 
 public class

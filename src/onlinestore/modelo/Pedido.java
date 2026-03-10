@@ -1,3 +1,5 @@
+package onlinestore.modelo;
+
 import java.time.LocalDateTime;
 
 public class Pedido {

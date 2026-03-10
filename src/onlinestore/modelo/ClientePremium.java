@@ -1,3 +1,5 @@
+package onlinestore.modelo;
+
 public class ClientePremium extends Cliente {
 
     private static final double CUOTA_ANUAL = 30.0;
