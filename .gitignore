@@ -1,0 +1,11 @@
+# Archivos compilados de Java
+*.class
+
+# Carpeta de compilación de IntelliJ
+out/
+
+# Configuración de IntelliJ
+.idea/
+
+# Archivos temporales
+*.log
