@@ -1,4 +1,4 @@
 package innerjoinsquad.controlador;
 
-public class controlador {
+public class Controlador {
 }

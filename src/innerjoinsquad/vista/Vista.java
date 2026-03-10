@@ -1,4 +1,4 @@
 package innerjoinsquad.vista;
 
-public class vista {
+public class Vista {
 }

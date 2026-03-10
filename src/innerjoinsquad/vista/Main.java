@@ -1,5 +1,11 @@
-package innerjoinsquad;
-// hola
+package innerjoinsquad.vista;
+
+import innerjoinsquad.modelo.Articulo;
+import innerjoinsquad.modelo.Cliente;
+import innerjoinsquad.modelo.ClienteEstandar;
+import innerjoinsquad.modelo.ClientePremium;
+import innerjoinsquad.modelo.Pedido;
+import innerjoinsquad.modelo.Tienda;
 import java.time.LocalDateTime;
 
 public class Main {
