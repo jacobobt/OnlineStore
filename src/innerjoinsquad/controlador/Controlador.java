@@ -32,4 +32,37 @@ public class Controlador {
     public void anadirPedido(Pedido pedido) {
         datos.anadirPedido(pedido);
     }
+    public java.util.ArrayList<Cliente> getClientes() {
+        return datos.getClientes();
+    }
+    public java.util.ArrayList<Articulo> getArticulos() {
+        return datos.getArticulos();
+    }
+    public Cliente buscarClientePorEmail(String email) {
+        return datos.buscarClientePorEmail(email);
+    }
+    public Articulo buscarArticuloPorCodigo(String codigo) {
+        return datos.buscarArticuloPorCodigo(codigo);
+    }
+    public java.util.ArrayList<Pedido> getPedidos() {
+        return datos.getPedidos();
+    }
+    public Pedido buscarPedidoPorNumero(int numeroPedido) {
+        return datos.buscarPedidoPorNumero(numeroPedido);
+    }
+    public boolean eliminarPedido(int numeroPedido) {
+        return datos.eliminarPedido(numeroPedido);
+    }
+    public java.util.ArrayList<Pedido> getPedidosPendientes() {
+        return datos.getPedidosPendientes();
+    }
+    public java.util.ArrayList<Pedido> getPedidosEnviados() {
+        return datos.getPedidosEnviados();
+    }
+    public java.util.ArrayList<Pedido> getPedidosPendientesPorCliente(String email) {
+        return datos.getPedidosPendientesPorCliente(email);
+    }
+    public java.util.ArrayList<Pedido> getPedidosEnviadosPorCliente(String email) {
+        return datos.getPedidosEnviadosPorCliente(email);
+    }
 }
