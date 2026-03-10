@@ -1,5 +1,5 @@
 public class Articulo {
-    // Comentario de Adri
+
     private String codigoArticulo; // ID
     private String descripcionArticulo;
     private double precioVenta;
