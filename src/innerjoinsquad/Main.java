@@ -1,4 +1,4 @@
-package onlinestore;
+package innerjoinsquad;
 
 import java.time.LocalDateTime;
 

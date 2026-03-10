@@ -1,4 +1,4 @@
-package onlinestore.modelo;
+package innerjoinsquad.modelo;
 
 import java.util.ArrayList;
 
