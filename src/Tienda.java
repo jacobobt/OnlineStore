@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
-public class Tienda {
+public class
+Tienda {
 
     private String nombreTienda;
     private ArrayList<Cliente> clientes;
