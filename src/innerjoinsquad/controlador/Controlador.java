@@ -4,6 +4,8 @@ import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Datos;
 import innerjoinsquad.modelo.Pedido;
+import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 
 public class Controlador {
 
@@ -50,8 +52,8 @@ public class Controlador {
     public Pedido buscarPedidoPorNumero(int numeroPedido) {
         return datos.buscarPedidoPorNumero(numeroPedido);
     }
-    public boolean eliminarPedido(int numeroPedido) {
-        return datos.eliminarPedido(numeroPedido);
+    public void eliminarPedido(int numeroPedido) throws PedidoNoEncontradoExcepcion, PedidoYaEnviadoExcepcion {
+        datos.eliminarPedido(numeroPedido);
     }
     public java.util.ArrayList<Pedido> getPedidosPendientes() {
         return datos.getPedidosPendientes();

@@ -1,5 +1,8 @@
 package innerjoinsquad.modelo;
 
+import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
+
 public class Datos {
 
     private Tienda tienda;
@@ -45,8 +48,8 @@ public class Datos {
     public Pedido buscarPedidoPorNumero(int numeroPedido) {
         return tienda.buscarPedidoPorNumero(numeroPedido);
     }
-    public boolean eliminarPedido(int numeroPedido) {
-        return tienda.eliminarPedido(numeroPedido);
+    public void eliminarPedido(int numeroPedido) throws PedidoNoEncontradoExcepcion, PedidoYaEnviadoExcepcion {
+        tienda.eliminarPedido(numeroPedido);
     }
     public java.util.ArrayList<Pedido> getPedidosPendientes() {
         return tienda.getPedidosPendientes();

@@ -7,6 +7,8 @@ import innerjoinsquad.modelo.ClientePremium;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Pedido;
 import java.util.Scanner;
+import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 
 public class Vista {
 
@@ -204,18 +206,13 @@ public class Vista {
         System.out.print("Introduce el numero del pedido que quieres eliminar: ");
         int numeroPedido = teclado.nextInt();
 
-        Pedido pedido = controlador.buscarPedidoPorNumero(numeroPedido);
-
-        if (pedido == null) {
+        try {
+            controlador.eliminarPedido(numeroPedido);
+            System.out.println("Pedido eliminado correctamente.");
+        } catch (PedidoYaEnviadoExcepcion e) {
+            System.out.println("No se puede eliminar el pedido porque ya ha sido enviado.");
+        } catch (PedidoNoEncontradoExcepcion e) {
             System.out.println("Error: no existe un pedido con ese numero.");
-        } else {
-            boolean eliminado = controlador.eliminarPedido(numeroPedido);
-
-            if (eliminado) {
-                System.out.println("Pedido eliminado correctamente.");
-            } else {
-                System.out.println("No se puede eliminar el pedido porque ya ha sido enviado.");
-            }
         }
     }
     public void mostrarPedidosPendientesVista() {

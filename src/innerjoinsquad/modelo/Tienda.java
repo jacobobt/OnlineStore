@@ -1,6 +1,8 @@
 package innerjoinsquad.modelo;
 
 import java.util.ArrayList;
+import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 
 public class
 Tienda {
@@ -74,15 +76,18 @@ Tienda {
         }
         return null;
     }
-    public boolean eliminarPedido(int numeroPedido) {
+    public void eliminarPedido(int numeroPedido) throws PedidoNoEncontradoExcepcion, PedidoYaEnviadoExcepcion {
         Pedido pedido = buscarPedidoPorNumero(numeroPedido);
 
-        if (pedido != null && pedido.sePuedeEliminar()) {
-            pedidos.remove(pedido);
-            return true;
+        if (pedido == null) {
+            throw new PedidoNoEncontradoExcepcion(numeroPedido);
         }
 
-        return false;
+        if (!pedido.sePuedeEliminar()) {
+            throw new PedidoYaEnviadoExcepcion(numeroPedido);
+        }
+
+        pedidos.remove(pedido);
     }
     public java.util.ArrayList<Pedido> getPedidosPendientes() {
         java.util.ArrayList<Pedido> pedidosPendientes = new java.util.ArrayList<>();
