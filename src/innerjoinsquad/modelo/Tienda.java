@@ -68,6 +68,7 @@ Tienda {
         }
         return null;
     }
+
     public Pedido buscarPedidoPorNumero(int numeroPedido) {
         for (Pedido pedido : pedidos) {
             if (pedido.getNumeroPedido() == numeroPedido) {
@@ -76,6 +77,7 @@ Tienda {
         }
         return null;
     }
+
     public void eliminarPedido(int numeroPedido) throws PedidoNoEncontradoExcepcion, PedidoYaEnviadoExcepcion {
         Pedido pedido = buscarPedidoPorNumero(numeroPedido);
 
@@ -89,6 +91,7 @@ Tienda {
 
         pedidos.remove(pedido);
     }
+
     public java.util.ArrayList<Pedido> getPedidosPendientes() {
         java.util.ArrayList<Pedido> pedidosPendientes = new java.util.ArrayList<>();
 
@@ -100,6 +103,7 @@ Tienda {
 
         return pedidosPendientes;
     }
+
     public java.util.ArrayList<Pedido> getPedidosEnviados() {
         java.util.ArrayList<Pedido> pedidosEnviados = new java.util.ArrayList<>();
 
@@ -111,6 +115,7 @@ Tienda {
 
         return pedidosEnviados;
     }
+
     public java.util.ArrayList<Pedido> getPedidosPendientesPorCliente(String email) {
         java.util.ArrayList<Pedido> pedidosPendientesCliente = new java.util.ArrayList<>();
 
@@ -123,6 +128,7 @@ Tienda {
 
         return pedidosPendientesCliente;
     }
+
     public java.util.ArrayList<Pedido> getPedidosEnviadosPorCliente(String email) {
         java.util.ArrayList<Pedido> pedidosEnviadosCliente = new java.util.ArrayList<>();
 

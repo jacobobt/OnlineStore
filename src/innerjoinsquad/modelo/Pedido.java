@@ -74,6 +74,7 @@ public class Pedido {
         LocalDateTime limite = fechaHora.plusMinutes(articulo.getTiempoPreparacionMin());
         return LocalDateTime.now().isAfter(limite) || LocalDateTime.now().isEqual(limite);
     }
+
     //Devuelve true → el pedido ya fue enviado. Solo se puede eliminar si NO está enviado.
     public boolean sePuedeEliminar() {
         return !estaEnviado();

@@ -127,6 +127,7 @@ public class Vista {
             }
         }
     }
+
     public void anadirPedidoVista() {
         teclado.nextLine();
 
@@ -192,6 +193,7 @@ public class Vista {
         controlador.anadirPedido(pedido);
         System.out.println("Pedido anadido correctamente.");
     }
+
     public void mostrarPedidosVista() {
         if (controlador.getPedidos().isEmpty()) {
             System.out.println("No hay pedidos registrados.");
@@ -202,6 +204,7 @@ public class Vista {
             }
         }
     }
+
     public void eliminarPedidoVista() {
         System.out.print("Introduce el numero del pedido que quieres eliminar: ");
         int numeroPedido = teclado.nextInt();
@@ -215,6 +218,7 @@ public class Vista {
             System.out.println("Error: no existe un pedido con ese numero.");
         }
     }
+
     public void mostrarPedidosPendientesVista() {
         if (controlador.getPedidosPendientes().isEmpty()) {
             System.out.println("No hay pedidos pendientes.");
@@ -225,6 +229,7 @@ public class Vista {
             }
         }
     }
+
     public void mostrarPedidosEnviadosVista() {
         if (controlador.getPedidosEnviados().isEmpty()) {
             System.out.println("No hay pedidos enviados.");
@@ -235,6 +240,7 @@ public class Vista {
             }
         }
     }
+
     public void mostrarPedidosPendientesPorClienteVista() {
         teclado.nextLine();
 
@@ -250,6 +256,7 @@ public class Vista {
             }
         }
     }
+
     public void mostrarPedidosEnviadosPorClienteVista() {
         teclado.nextLine();
 
