@@ -15,7 +15,7 @@ public class PruebaProcedimientoCliente {
                     "Ana López",
                     "Calle Nueva 45",
                     "98765432B",
-                    "ana@email.com"
+                    "ana3@email.com"
             );
 
             ClienteDAOMySQL clienteDAO = new ClienteDAOMySQL();
