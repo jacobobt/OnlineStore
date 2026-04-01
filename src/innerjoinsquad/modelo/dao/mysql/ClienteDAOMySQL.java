@@ -14,28 +14,47 @@ public class ClienteDAOMySQL implements ClienteDAO {
 
     @Override
     public void insertarCliente(Cliente cliente) throws SQLException {
+        Connection conexion = null;
 
-        String sql = "INSERT INTO clientes (email_cliente, nombre_cliente, domicilio_cliente, nif_cliente, tipo_cliente) VALUES (?, ?, ?, ?, ?)";
+        try {
+            // Abrimos la conexión
+            conexion = ConexionBD.getConexion();
 
-        try (Connection conexion = ConexionBD.getConexion();
-             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            // Desactivamos autocommit e iniciamos transacción
+            conexion.setAutoCommit(false);
 
-            ps.setString(1, cliente.getEmailCliente());
-            ps.setString(2, cliente.getNombreCliente());
-            ps.setString(3, cliente.getDomicilioCliente());
-            ps.setString(4, cliente.getNifCliente());
+            // Preparar y ejecutar INSERT
+            String sql = "INSERT INTO clientes (email_cliente, nombre_cliente, domicilio_cliente, nif_cliente, tipo_cliente) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+                ps.setString(1, cliente.getEmailCliente());
+                ps.setString(2, cliente.getNombreCliente());
+                ps.setString(3, cliente.getDomicilioCliente());
+                ps.setString(4, cliente.getNifCliente());
+                ps.setString(5, (cliente instanceof innerjoinsquad.modelo.ClientePremium) ? "PREMIUM" : "ESTANDAR");
 
-            // tipo cliente (simple)
-            if (cliente instanceof innerjoinsquad.modelo.ClientePremium) {
-                ps.setString(5, "PREMIUM");
-            } else {
-                ps.setString(5, "ESTANDAR");
+                ps.executeUpdate();
             }
 
-            ps.executeUpdate();
+            // Si funciona commit
+            conexion.commit();
+            System.out.println("Cliente insertado correctamente con transacción.");
+
+        } catch (SQLException e) {
+            // Si falla algo rollback
+            if (conexion != null) {
+                conexion.rollback();
+                System.out.println("Error al insertar cliente: ROLLBACK ejecutado");
+            }
+            throw e;
+
+        } finally {
+            // Volvemos a activar autocommit y cerramos conexión
+            if (conexion != null) {
+                conexion.setAutoCommit(true);
+                conexion.close();
+            }
         }
     }
-
     @Override
     public Cliente obtenerClientePorEmail(String email) throws SQLException {
 
