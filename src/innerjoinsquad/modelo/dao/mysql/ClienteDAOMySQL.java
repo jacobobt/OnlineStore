@@ -11,7 +11,7 @@ import java.util.List;
 import java.sql.ResultSet;
 
 public class ClienteDAOMySQL implements ClienteDAO {
-
+    //Transacción
     @Override
     public void insertarCliente(Cliente cliente) throws SQLException {
         Connection conexion = null;
