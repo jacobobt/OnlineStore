@@ -1,0 +1,23 @@
+-------------------------------------------------------------------------------
+Test set: innerjoinsquad.modelo.OnlineStoreTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.509 s <<< FAILURE! -- in innerjoinsquad.modelo.OnlineStoreTest
+innerjoinsquad.modelo.OnlineStoreTest.testEliminarPedidoYaEnviado -- Time elapsed: 0.042 s <<< ERROR!
+java.lang.RuntimeException: Error al añadir artículo en la base de datos.
+	at innerjoinsquad.modelo.Datos.anadirArticulo(Datos.java:40)
+	at innerjoinsquad.modelo.OnlineStoreTest.setUp(OnlineStoreTest.java:26)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'A1' for key 'articulos.PRIMARY'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:109)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:988)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1166)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1101)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1448)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1084)
+	at innerjoinsquad.modelo.dao.mysql.ArticuloDAOMySQL.insertarArticulo(ArticuloDAOMySQL.java:29)
+	at innerjoinsquad.modelo.Datos.anadirArticulo(Datos.java:38)
+	... 4 more
+

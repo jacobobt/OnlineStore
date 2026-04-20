@@ -1,6 +1,8 @@
 package innerjoinsquad.modelo.dao.mysql;
 
 import innerjoinsquad.modelo.Cliente;
+import innerjoinsquad.modelo.ClienteEstandar;
+import innerjoinsquad.modelo.ClientePremium;
 import innerjoinsquad.modelo.dao.ClienteDAO;
 import innerjoinsquad.modelo.util.ConexionBD;
 
@@ -30,7 +32,7 @@ public class ClienteDAOMySQL implements ClienteDAO {
                 ps.setString(2, cliente.getNombreCliente());
                 ps.setString(3, cliente.getDomicilioCliente());
                 ps.setString(4, cliente.getNifCliente());
-                ps.setString(5, (cliente instanceof innerjoinsquad.modelo.ClientePremium) ? "PREMIUM" : "ESTANDAR");
+                ps.setString(5, (cliente instanceof ClientePremium) ? "PREMIUM" : "ESTANDAR");
 
                 ps.executeUpdate();
             }
@@ -75,14 +77,14 @@ public class ClienteDAOMySQL implements ClienteDAO {
                 String tipoCliente = rs.getString("tipo_cliente");
 
                 if (tipoCliente.equalsIgnoreCase("PREMIUM")) {
-                    return new innerjoinsquad.modelo.ClientePremium(
+                    return new ClientePremium(
                             nombreCliente,
                             domicilioCliente,
                             nifCliente,
                             emailCliente
                     );
                 } else {
-                    return new innerjoinsquad.modelo.ClienteEstandar(
+                    return new ClienteEstandar(
                             nombreCliente,
                             domicilioCliente,
                             nifCliente,
@@ -116,14 +118,14 @@ public class ClienteDAOMySQL implements ClienteDAO {
                 Cliente cliente;
 
                 if (tipoCliente.equalsIgnoreCase("PREMIUM")) {
-                    cliente = new innerjoinsquad.modelo.ClientePremium(
+                    cliente = new ClientePremium(
                             nombreCliente,
                             domicilioCliente,
                             nifCliente,
                             emailCliente
                     );
                 } else {
-                    cliente = new innerjoinsquad.modelo.ClienteEstandar(
+                    cliente = new ClienteEstandar(
                             nombreCliente,
                             domicilioCliente,
                             nifCliente,
@@ -149,7 +151,7 @@ public class ClienteDAOMySQL implements ClienteDAO {
             cs.setString(3, cliente.getDomicilioCliente());
             cs.setString(4, cliente.getNifCliente());
 
-            if (cliente instanceof innerjoinsquad.modelo.ClientePremium) {
+            if (cliente instanceof ClientePremium) {
                 cs.setString(5, "PREMIUM");
             } else {
                 cs.setString(5, "ESTANDAR");

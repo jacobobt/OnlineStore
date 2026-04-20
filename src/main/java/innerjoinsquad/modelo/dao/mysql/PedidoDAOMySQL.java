@@ -1,6 +1,8 @@
 package innerjoinsquad.modelo.dao.mysql;
 
+import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Pedido;
+import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.dao.PedidoDAO;
 import innerjoinsquad.modelo.util.ConexionBD;
 
@@ -23,8 +25,8 @@ public class PedidoDAOMySQL implements PedidoDAO {
         int cantidad = rs.getInt("cantidad");
         java.time.LocalDateTime fechaHora = rs.getTimestamp("fecha_hora").toLocalDateTime();
 
-        innerjoinsquad.modelo.Cliente cliente = clienteDAO.obtenerClientePorEmail(emailCliente);
-        innerjoinsquad.modelo.Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigoArticulo);
+        Cliente cliente = clienteDAO.obtenerClientePorEmail(emailCliente);
+        Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigoArticulo);
 
         return new Pedido(
                 numeroPedido,
@@ -76,8 +78,8 @@ public class PedidoDAOMySQL implements PedidoDAO {
                 ArticuloDAO articuloDAO = new ArticuloDAOMySQL();
 
                 // obtener objetos completos
-                innerjoinsquad.modelo.Cliente cliente = clienteDAO.obtenerClientePorEmail(emailCliente);
-                innerjoinsquad.modelo.Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigoArticulo);
+                Cliente cliente = clienteDAO.obtenerClientePorEmail(emailCliente);
+                Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigoArticulo);
 
                 return new Pedido(
                         numeroPedido,
@@ -114,8 +116,8 @@ public class PedidoDAOMySQL implements PedidoDAO {
                 int cantidad = rs.getInt("cantidad");
                 java.time.LocalDateTime fechaHora = rs.getTimestamp("fecha_hora").toLocalDateTime();
 
-                innerjoinsquad.modelo.Cliente cliente = clienteDAO.obtenerClientePorEmail(emailCliente);
-                innerjoinsquad.modelo.Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigoArticulo);
+                Cliente cliente = clienteDAO.obtenerClientePorEmail(emailCliente);
+                Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigoArticulo);
 
                 Pedido pedido = new Pedido(
                         numeroPedido,

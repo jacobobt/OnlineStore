@@ -1,6 +1,9 @@
 package innerjoinsquad.modelo;
 
-import innerjoinsquad.modelo.excepciones.*;
+import innerjoinsquad.modelo.*;
+import innerjoinsquad.modelo.excepciones.ArticuloYaExisteExcepcion;
+import innerjoinsquad.modelo.excepciones.ClienteYaExisteExcepcion;
+import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
