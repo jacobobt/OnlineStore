@@ -6,10 +6,15 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
 
 @Entity
 @Table(name = "clientes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
+@DiscriminatorColumn(name = "tipo_cliente")
+@DiscriminatorValue("CLIENTE")
 
 public abstract class Cliente {
 

@@ -1,5 +1,7 @@
 package innerjoinsquad.modelo.dao.jpa;
 
+import innerjoinsquad.modelo.Articulo;
+import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.PedidoDAO;
 import jakarta.persistence.EntityManager;
@@ -18,6 +20,12 @@ public class PedidoDAOJPA implements PedidoDAO {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin(); // iniciamos la transacción
+            // obtenemos referencias gestionadas por este EntityManager
+            Cliente clienteGestionado = em.find(Cliente.class, pedido.getCliente().getEmailCliente());
+            Articulo articuloGestionado = em.find(Articulo.class, pedido.getArticulo().getCodigoArticulo());
+            // asignamos las referencias gestionadas al pedido
+            pedido.setCliente(clienteGestionado);
+            pedido.setArticulo(articuloGestionado);
             em.persist(pedido); // guardamos el pedido en la BD
             em.getTransaction().commit(); // confirmamos los cambios
         } catch (Exception e) {
