@@ -28,6 +28,7 @@ innerjoinsquad\modelo\dao\mysql\ArticuloDAOMySQL.class
 innerjoinsquad\modelo\excepciones\ArticuloYaExisteExcepcion.class
 innerjoinsquad\vista\Vista.class
 innerjoinsquad\modelo\Cliente.class
+innerjoinsquad\modelo\util\JPAUtil.class
 innerjoinsquad\PruebaListarPedidos.class
 innerjoinsquad\modelo\dao\PedidoDAO.class
 innerjoinsquad\modelo\dao\ClienteDAO.class
