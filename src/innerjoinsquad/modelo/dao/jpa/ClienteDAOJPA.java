@@ -2,6 +2,7 @@ package innerjoinsquad.modelo.dao.jpa;
 
 import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.dao.ClienteDAO;
+import innerjoinsquad.modelo.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -11,7 +12,7 @@ import java.util.List;
 public class ClienteDAOJPA implements ClienteDAO {
 
     // EntityManagerFactory gestiona la conexión con la BD
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("OnlineStorePU");
+    private EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
 
     @Override
     public void insertarCliente(Cliente cliente) {

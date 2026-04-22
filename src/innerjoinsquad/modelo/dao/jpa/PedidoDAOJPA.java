@@ -4,6 +4,7 @@ import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.PedidoDAO;
+import innerjoinsquad.modelo.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -13,7 +14,7 @@ import java.util.List;
 public class PedidoDAOJPA implements PedidoDAO {
 
     // EntityManagerFactory gestiona la conexión con la BD
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("OnlineStorePU");
+    private EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
 
     @Override
     public void insertarPedido(Pedido pedido) {
