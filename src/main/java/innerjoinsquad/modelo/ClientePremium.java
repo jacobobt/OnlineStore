@@ -1,9 +1,17 @@
 package innerjoinsquad.modelo;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("PREMIUM")
 public class ClientePremium extends Cliente {
 
     private static final double CUOTA_ANUAL = 30.0;
     private static final double DESCUENTO_ENVIO = 0.20; // 20%
+
+    public ClientePremium() {
+    }
 
     public ClientePremium(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {
         super(nombreCliente, domicilioCliente, nifCliente, emailCliente);

@@ -1,6 +1,14 @@
 package innerjoinsquad.modelo;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("ESTANDAR")
 public class ClienteEstandar extends Cliente {
+
+    public ClienteEstandar() {
+    }
 
     public ClienteEstandar(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {
         super(nombreCliente, domicilioCliente, nifCliente, emailCliente);
