@@ -1,12 +1,28 @@
 package innerjoinsquad.modelo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "articulos")
 public class Articulo {
 
+    @Id
+    @Column(name = "codigo_articulo")
     private String codigoArticulo; // ID
+    @Column(name = "descripcion")
     private String descripcionArticulo;
+    @Column(name = "precio_venta")
     private double precioVenta;
+    @Column(name = "gastos_envio")
     private double gastosEnvio;
+    @Column(name = "tiempo_preparacion_min")
     private int tiempoPreparacionMin;
+
+    public Articulo() {
+    }
 
     public Articulo(String codigoArticulo, String descripcionArticulo, double precioVenta, double gastosEnvio, int tiempoPreparacionMin) {
         this.codigoArticulo = codigoArticulo;
