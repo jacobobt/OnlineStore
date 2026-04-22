@@ -1,14 +1,36 @@
 package innerjoinsquad.modelo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "pedidos")
 public class Pedido {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numero_pedido")
     private int numeroPedido; // ID
+    @ManyToOne
+    @JoinColumn(name = "email_cliente")
     private Cliente cliente;
+    @ManyToOne
+    @JoinColumn(name = "codigo_articulo")
     private Articulo articulo;
+    @Column(name = "cantidad")
     private int cantidad;
+    @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
+
+    public Pedido() {
+    }
 
     public Pedido(int numeroPedido, Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora) {
         this.numeroPedido = numeroPedido;
