@@ -14,6 +14,7 @@ CREATE TABLE clientes (
     domicilio_cliente VARCHAR(150) NOT NULL,
     nif_cliente VARCHAR(20) NOT NULL,
     tipo_cliente VARCHAR(20) NOT NULL,
+    DTYPE VARCHAR(31) NOT NULL DEFAULT 'Cliente',
     CONSTRAINT pk_clientes PRIMARY KEY (email_cliente)
 );
 
