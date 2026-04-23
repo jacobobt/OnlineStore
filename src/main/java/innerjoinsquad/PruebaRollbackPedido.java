@@ -5,9 +5,9 @@ import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.ClienteEstandar;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.mysql.PedidoDAOMySQL;
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 public class PruebaRollbackPedido {
 
@@ -23,11 +23,11 @@ public class PruebaRollbackPedido {
 
             // Artículo que NO existe en la BD
             Articulo articulo = new Articulo(
-                    "NO_EXISTE",
-                    "Artículo inventado",
-                    10.0,
-                    2.0,
-                    5
+                    "A1",
+                    "Articulo 1",
+                    BigDecimal.valueOf(89.90),
+                    BigDecimal.valueOf(4.90),
+                    60
             );
 
             Pedido pedido = new Pedido(

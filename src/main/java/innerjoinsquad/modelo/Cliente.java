@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "clientes")
@@ -72,7 +73,7 @@ public abstract class Cliente {
         return false;
     }
 
-    public double aplicarDescuentoEnvio(double gastosEnvioBase) {
+    public BigDecimal aplicarDescuentoEnvio(BigDecimal gastosEnvioBase) {
         return gastosEnvioBase;
     }
 

@@ -111,7 +111,13 @@ public class Vista {
         System.out.print("Introduce el tiempo de preparacion en minutos: ");
         int tiempoPreparacionMin = teclado.nextInt();
 
-        Articulo articulo = new Articulo(codigo, descripcion, precioVenta, gastosEnvio, tiempoPreparacionMin);
+        Articulo articulo = new Articulo(
+                codigo,
+                descripcion,
+                java.math.BigDecimal.valueOf(precioVenta),
+                java.math.BigDecimal.valueOf(gastosEnvio),
+                tiempoPreparacionMin
+        );
 
         controlador.anadirArticulo(articulo);
         System.out.println("Articulo anadido correctamente.");

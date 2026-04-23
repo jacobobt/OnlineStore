@@ -2,6 +2,7 @@ package innerjoinsquad;
 
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.dao.mysql.ArticuloDAOMySQL;
+import java.math.BigDecimal;
 
 import java.sql.SQLException;
 
@@ -11,11 +12,11 @@ public class PruebaInsertarArticulo {
 
         try {
             Articulo articulo = new Articulo(
-                    "A001",
-                    "Teclado mecánico",
-                    79.99,
-                    5.50,
-                    30
+                    "A1",
+                    "Articulo 1",
+                    BigDecimal.valueOf(89.90),
+                    BigDecimal.valueOf(4.90),
+                    60
             );
 
             ArticuloDAOMySQL articuloDAO = new ArticuloDAOMySQL();

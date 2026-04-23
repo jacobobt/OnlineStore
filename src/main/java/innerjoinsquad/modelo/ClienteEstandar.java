@@ -2,6 +2,7 @@ package innerjoinsquad.modelo;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import java.math.BigDecimal;
 
 @Entity
 @DiscriminatorValue("ESTANDAR")
@@ -20,7 +21,7 @@ public class ClienteEstandar extends Cliente {
     }
 
     @Override
-    public double aplicarDescuentoEnvio(double gastosEnvioBase) {
+    public BigDecimal aplicarDescuentoEnvio(BigDecimal gastosEnvioBase) {
         return gastosEnvioBase; // sin descuento
     }
 

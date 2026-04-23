@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,15 +18,19 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_pedido")
-    private int numeroPedido; // ID
+    private int numeroPedido;
+
     @ManyToOne
     @JoinColumn(name = "email_cliente")
     private Cliente cliente;
+
     @ManyToOne
     @JoinColumn(name = "codigo_articulo")
     private Articulo articulo;
+
     @Column(name = "cantidad")
     private int cantidad;
+
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
@@ -37,83 +42,69 @@ public class Pedido {
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
-        this.fechaHora = fechaHora; // de tipo LocalDateTime representa fecha y hora." 2024-01-01T12:00:00"
+        this.fechaHora = fechaHora;
     }
 
     public int getNumeroPedido() {
-
         return numeroPedido;
     }
 
     public void setNumeroPedido(int numeroPedido) {
-
         this.numeroPedido = numeroPedido;
     }
 
     public Cliente getCliente() {
-
         return cliente;
     }
 
     public void setCliente(Cliente cliente) {
-
         this.cliente = cliente;
     }
 
     public Articulo getArticulo() {
-
         return articulo;
     }
 
     public void setArticulo(Articulo articulo) {
-
         this.articulo = articulo;
     }
 
     public int getCantidad() {
-
         return cantidad;
     }
 
     public void setCantidad(int cantidad) {
-
         this.cantidad = cantidad;
     }
 
     public LocalDateTime getFechaHora() {
-
         return fechaHora;
     }
 
     public void setFechaHora(LocalDateTime fechaHora) {
-
         this.fechaHora = fechaHora;
     }
 
-    // Fecha del pedido + minutos de preparación = momento en el que se envía. Es True si ya está enviado.
-    // plusMinutes() es un meto-do que pertenece a la clase LocalDateTime:devuelve una nueva fecha sumándole minutos
     public boolean estaEnviado() {
         LocalDateTime limite = fechaHora.plusMinutes(articulo.getTiempoPreparacionMin());
         return LocalDateTime.now().isAfter(limite) || LocalDateTime.now().isEqual(limite);
     }
 
-    //Devuelve true → el pedido ya fue enviado. Solo se puede eliminar si NO está enviado.
     public boolean sePuedeEliminar() {
         return !estaEnviado();
     }
 
-    public double calcularTotal() {
-        double subtotal = articulo.getPrecioVenta() * cantidad;
-        double envio = cliente.aplicarDescuentoEnvio(articulo.getGastosEnvio());
-        return subtotal + envio;
+    public BigDecimal calcularTotal() {
+        BigDecimal subtotal = articulo.getPrecioVenta().multiply(BigDecimal.valueOf(cantidad));
+        BigDecimal envio = cliente.aplicarDescuentoEnvio(articulo.getGastosEnvio());
+        return subtotal.add(envio);
     }
 
-    //Operador ternario necesario porque si creamos cliente null, saldría NullPointerException
     @Override
     public String toString() {
         return "Pedido{" +
                 "numeroPedido=" + numeroPedido +
-                ", cliente=" + (cliente != null ? cliente.getEmailCliente() : "null") + //ternario
+                ", cliente=" + (cliente != null ? cliente.getEmailCliente() : "null") +
                 ", articulo=" + (articulo != null ? articulo.getCodigoArticulo() : "null") +
                 ", cantidad=" + cantidad +
                 ", fechaHora=" + fechaHora +

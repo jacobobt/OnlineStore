@@ -2,13 +2,15 @@ package innerjoinsquad.modelo;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @DiscriminatorValue("PREMIUM")
 public class ClientePremium extends Cliente {
 
-    private static final double CUOTA_ANUAL = 30.0;
-    private static final double DESCUENTO_ENVIO = 0.20; // 20%
+    private static final BigDecimal CUOTA_ANUAL = BigDecimal.valueOf(30.0);
+    private static final BigDecimal DESCUENTO_ENVIO = BigDecimal.valueOf(0.20); // 20%
 
     public ClientePremium() {
     }
@@ -17,11 +19,11 @@ public class ClientePremium extends Cliente {
         super(nombreCliente, domicilioCliente, nifCliente, emailCliente);
     }
 
-    public double getCuotaAnual() {
+    public BigDecimal getCuotaAnual() {
         return CUOTA_ANUAL;
     }
 
-    public double getDescuentoEnvio() {
+    public BigDecimal getDescuentoEnvio() {
         return DESCUENTO_ENVIO;
     }
 
@@ -31,8 +33,9 @@ public class ClientePremium extends Cliente {
     }
 
     @Override
-    public double aplicarDescuentoEnvio(double gastosEnvioBase) {
-        return gastosEnvioBase * (1.0 - DESCUENTO_ENVIO);
+    public BigDecimal aplicarDescuentoEnvio(BigDecimal gastosEnvioBase) {
+        return gastosEnvioBase.multiply(BigDecimal.ONE.subtract(DESCUENTO_ENVIO))
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override

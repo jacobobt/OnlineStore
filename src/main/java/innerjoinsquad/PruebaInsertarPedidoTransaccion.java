@@ -5,9 +5,9 @@ import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.ClienteEstandar;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.mysql.PedidoDAOMySQL;
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 public class PruebaInsertarPedidoTransaccion {
 
@@ -22,11 +22,11 @@ public class PruebaInsertarPedidoTransaccion {
             );
 
             Articulo articulo = new Articulo(
-                    "A001",
-                    "Teclado mecánico",
-                    79.99,
-                    5.50,
-                    30
+                    "A1",
+                    "Articulo 1",
+                    BigDecimal.valueOf(89.90),
+                    BigDecimal.valueOf(4.90),
+                    60
             );
 
             Pedido pedido = new Pedido(

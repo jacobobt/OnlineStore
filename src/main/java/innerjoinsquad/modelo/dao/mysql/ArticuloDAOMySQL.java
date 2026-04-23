@@ -3,7 +3,7 @@ package innerjoinsquad.modelo.dao.mysql;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.dao.ArticuloDAO;
 import innerjoinsquad.modelo.util.ConexionBD;
-
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +22,8 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
 
             ps.setString(1, articulo.getCodigoArticulo());
             ps.setString(2, articulo.getDescripcionArticulo());
-            ps.setDouble(3, articulo.getPrecioVenta());
-            ps.setDouble(4, articulo.getGastosEnvio());
+            ps.setBigDecimal(3, articulo.getPrecioVenta());
+            ps.setBigDecimal(4, articulo.getGastosEnvio());
             ps.setInt(5, articulo.getTiempoPreparacionMin());
 
             ps.executeUpdate();
@@ -45,8 +45,8 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
             if (rs.next()) {
                 String codigoArticulo = rs.getString("codigo_articulo");
                 String descripcionArticulo = rs.getString("descripcion");
-                double precioVenta = rs.getDouble("precio_venta");
-                double gastosEnvio = rs.getDouble("gastos_envio");
+                BigDecimal precioVenta = rs.getBigDecimal("precio_venta");
+                BigDecimal gastosEnvio = rs.getBigDecimal("gastos_envio");
                 int tiempoPreparacionMin = rs.getInt("tiempo_preparacion_min");
 
                 return new Articulo(
@@ -76,8 +76,8 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
             while (rs.next()) {
                 String codigoArticulo = rs.getString("codigo_articulo");
                 String descripcionArticulo = rs.getString("descripcion");
-                double precioVenta = rs.getDouble("precio_venta");
-                double gastosEnvio = rs.getDouble("gastos_envio");
+                BigDecimal precioVenta = rs.getBigDecimal("precio_venta");
+                BigDecimal gastosEnvio = rs.getBigDecimal("gastos_envio");
                 int tiempoPreparacionMin = rs.getInt("tiempo_preparacion_min");
 
                 Articulo articulo = new Articulo(
