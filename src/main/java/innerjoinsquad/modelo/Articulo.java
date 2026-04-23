@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "articulos")
@@ -11,20 +12,24 @@ public class Articulo {
 
     @Id
     @Column(name = "codigo_articulo")
-    private String codigoArticulo; // ID
+    private String codigoArticulo;
+
     @Column(name = "descripcion")
     private String descripcionArticulo;
-    @Column(name = "precio_venta")
-    private double precioVenta;
-    @Column(name = "gastos_envio")
-    private double gastosEnvio;
+
+    @Column(name = "precio_venta", precision = 10, scale = 2)
+    private BigDecimal precioVenta;
+
+    @Column(name = "gastos_envio", precision = 10, scale = 2)
+    private BigDecimal gastosEnvio;
+
     @Column(name = "tiempo_preparacion_min")
     private int tiempoPreparacionMin;
 
     public Articulo() {
     }
 
-    public Articulo(String codigoArticulo, String descripcionArticulo, double precioVenta, double gastosEnvio, int tiempoPreparacionMin) {
+    public Articulo(String codigoArticulo, String descripcionArticulo, BigDecimal precioVenta, BigDecimal gastosEnvio, int tiempoPreparacionMin) {
         this.codigoArticulo = codigoArticulo;
         this.descripcionArticulo = descripcionArticulo;
         this.precioVenta = precioVenta;
@@ -33,12 +38,10 @@ public class Articulo {
     }
 
     public String getCodigoArticulo() {
-
         return codigoArticulo;
     }
 
     public void setCodigoArticulo(String codigoArticulo) {
-
         this.codigoArticulo = codigoArticulo;
     }
 
@@ -50,19 +53,19 @@ public class Articulo {
         this.descripcionArticulo = descripcionArticulo;
     }
 
-    public double getPrecioVenta() {
+    public BigDecimal getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(double precioVenta) {
+    public void setPrecioVenta(BigDecimal precioVenta) {
         this.precioVenta = precioVenta;
     }
 
-    public double getGastosEnvio() {
+    public BigDecimal getGastosEnvio() {
         return gastosEnvio;
     }
 
-    public void setGastosEnvio(double gastosEnvio) {
+    public void setGastosEnvio(BigDecimal gastosEnvio) {
         this.gastosEnvio = gastosEnvio;
     }
 
