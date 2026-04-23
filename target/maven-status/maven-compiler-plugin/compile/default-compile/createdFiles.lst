@@ -7,6 +7,7 @@ innerjoinsquad\modelo\excepciones\ClienteYaExisteExcepcion.class
 innerjoinsquad\PruebaListarArticulos.class
 innerjoinsquad\PruebaRollbackPedido.class
 innerjoinsquad\PruebaProcedimientoCliente.class
+innerjoinsquad\modelo\dao\jpa\ArticuloDAOJPA.class
 innerjoinsquad\modelo\ClienteEstandar.class
 innerjoinsquad\modelo\dao\mysql\ClienteDAOMySQL.class
 innerjoinsquad\modelo\dao\mysql\PedidoDAOMySQL.class

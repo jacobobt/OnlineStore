@@ -5,6 +5,7 @@ C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsq
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\ClientePremium.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\ArticuloDAO.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\ClienteDAO.java
+C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\jpa\ArticuloDAOJPA.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\mysql\ArticuloDAOMySQL.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\mysql\ClienteDAOMySQL.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\mysql\PedidoDAOMySQL.java
