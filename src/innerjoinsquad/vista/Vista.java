@@ -95,6 +95,7 @@ public class Vista {
 
     public void anadirArticuloVista() {
         teclado.nextLine();
+        teclado.useLocale(java.util.Locale.US); // forzar punto como separador decimal
 
         System.out.print("Introduce el codigo del articulo: ");
         String codigo = teclado.nextLine();

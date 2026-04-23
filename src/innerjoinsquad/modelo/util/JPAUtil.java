@@ -19,7 +19,7 @@ public class JPAUtil {
             props.put("jakarta.persistence.jdbc.user", "root");
             props.put("jakarta.persistence.jdbc.password", "Holass2021"); // cambia por tu contraseña
             props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-            props.put("hibernate.hbm2ddl.auto", "update");
+            props.put("hibernate.hbm2ddl.auto", "validate");
             props.put("hibernate.show_sql", "true");
             emf = Persistence.createEntityManagerFactory("OnlineStorePU", props);
         }
