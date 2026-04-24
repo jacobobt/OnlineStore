@@ -12,6 +12,7 @@ innerjoinsquad\modelo\ClienteEstandar.class
 innerjoinsquad\modelo\dao\mysql\ClienteDAOMySQL.class
 innerjoinsquad\modelo\dao\mysql\PedidoDAOMySQL.class
 innerjoinsquad\PruebaInsertarCliente.class
+innerjoinsquad\modelo\dao\jpa\PedidoDAOJPA.class
 innerjoinsquad\modelo\ClientePremium.class
 innerjoinsquad\PruebaListarClientes.class
 innerjoinsquad\PruebaObtenerPedido.class
