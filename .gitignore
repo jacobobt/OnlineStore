@@ -9,3 +9,7 @@ out/
 
 # Archivos temporales
 *.log
+
+.DS_Store
+
+target/
