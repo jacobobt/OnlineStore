@@ -45,6 +45,13 @@ public class Pedido {
         this.fechaHora = fechaHora;
     }
 
+    public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora) {
+        this.cliente = cliente;
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.fechaHora = fechaHora;
+    }
+
     public int getNumeroPedido() {
         return numeroPedido;
     }

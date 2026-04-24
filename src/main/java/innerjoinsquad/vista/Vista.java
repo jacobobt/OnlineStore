@@ -137,10 +137,6 @@ public class Vista {
     public void anadirPedidoVista() {
         teclado.nextLine();
 
-        System.out.print("Introduce el numero del pedido: ");
-        int numeroPedido = teclado.nextInt();
-        teclado.nextLine();
-
         System.out.print("Introduce el email del cliente: ");
         String emailCliente = teclado.nextLine();
 
@@ -189,7 +185,6 @@ public class Vista {
         int cantidad = teclado.nextInt();
 
         Pedido pedido = new Pedido(
-                numeroPedido,
                 cliente,
                 articulo,
                 cantidad,
