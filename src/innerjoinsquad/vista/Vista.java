@@ -104,7 +104,20 @@ public class Vista {
         String descripcion = teclado.nextLine();
 
         System.out.print("Introduce el precio de venta: ");
-        double precioVenta = teclado.nextDouble();
+        double precioVenta;
+        while (true) {
+            String input = teclado.nextLine().trim();
+            if (input.contains(",")) {
+                System.out.print("Usa punto como separador decimal. Introduce el precio de venta: ");
+            } else {
+                try {
+                    precioVenta = Double.parseDouble(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.print("Valor no válido. Introduce el precio de venta: ");
+                }
+            }
+        }
 
         System.out.print("Introduce los gastos de envio: ");
         double gastosEnvio = teclado.nextDouble();
