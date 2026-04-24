@@ -20,6 +20,7 @@ C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsq
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\excepciones\PedidoNoEncontradoExcepcion.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\excepciones\PedidoYaEnviadoExcepcion.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\factory\DAOFactory.java
+C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\factory\JPADAOFactory.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\factory\MySQLDAOFactory.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\Pedido.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\util\ConexionBD.java
@@ -34,6 +35,7 @@ C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsq
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarClientes.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarClientesJPA.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarPedidos.java
+C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarPedidosJPA.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaObtenerArticulo.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaObtenerArticuloJPA.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaObtenerCliente.java

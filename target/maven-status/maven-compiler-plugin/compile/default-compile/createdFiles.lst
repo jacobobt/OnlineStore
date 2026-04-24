@@ -22,6 +22,7 @@ innerjoinsquad\PruebaConexionBD.class
 innerjoinsquad\PruebaInsertarPedidoTransaccion.class
 innerjoinsquad\modelo\excepciones\ClienteNoEncontradoExcepcion.class
 innerjoinsquad\modelo\excepciones\PedidoNoEncontradoExcepcion.class
+innerjoinsquad\modelo\factory\JPADAOFactory.class
 innerjoinsquad\controlador\Controlador.class
 innerjoinsquad\modelo\Datos.class
 innerjoinsquad\PruebaObtenerArticulo.class
