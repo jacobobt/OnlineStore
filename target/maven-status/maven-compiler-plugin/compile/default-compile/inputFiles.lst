@@ -6,6 +6,7 @@ C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsq
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\ArticuloDAO.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\ClienteDAO.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\jpa\ArticuloDAOJPA.java
+C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\jpa\ClienteDAOJPA.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\mysql\ArticuloDAOMySQL.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\mysql\ClienteDAOMySQL.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\modelo\dao\mysql\PedidoDAOMySQL.java
@@ -28,6 +29,7 @@ C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsq
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaInsertarPedido.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaInsertarPedidoTransaccion.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarArticulos.java
+C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarArticulosJPA.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarClientes.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaListarPedidos.java
 C:\Users\cPingus\Desktop\POO+BD - Proyecto\OnlineStore\src\main\java\innerjoinsquad\PruebaObtenerArticulo.java

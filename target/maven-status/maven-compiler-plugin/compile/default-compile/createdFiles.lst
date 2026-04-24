@@ -16,6 +16,7 @@ innerjoinsquad\modelo\ClientePremium.class
 innerjoinsquad\PruebaListarClientes.class
 innerjoinsquad\PruebaObtenerPedido.class
 innerjoinsquad\modelo\Pedido.class
+innerjoinsquad\modelo\dao\jpa\ClienteDAOJPA.class
 innerjoinsquad\PruebaConexionBD.class
 innerjoinsquad\PruebaInsertarPedidoTransaccion.class
 innerjoinsquad\modelo\excepciones\ClienteNoEncontradoExcepcion.class
