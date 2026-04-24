@@ -120,7 +120,20 @@ public class Vista {
         }
 
         System.out.print("Introduce los gastos de envio: ");
-        double gastosEnvio = teclado.nextDouble();
+        double gastosEnvio;
+        while (true) {
+            String input = teclado.nextLine().trim();
+            if (input.contains(",")) {
+                System.out.print("Usa punto como separador decimal. Introduce los gastos de envio: ");
+            } else {
+                try {
+                    gastosEnvio = Double.parseDouble(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.print("Valor no válido. Introduce los gastos de envio: ");
+                }
+            }
+        }
 
         System.out.print("Introduce el tiempo de preparacion en minutos: ");
         int tiempoPreparacionMin = teclado.nextInt();
