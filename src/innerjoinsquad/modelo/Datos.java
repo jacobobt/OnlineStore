@@ -6,7 +6,7 @@ import innerjoinsquad.modelo.dao.PedidoDAO;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 import innerjoinsquad.modelo.factory.DAOFactory;
-import innerjoinsquad.modelo.factory.MySQLDAOFactory;
+import innerjoinsquad.modelo.factory.JPADAOFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class Datos {
     private PedidoDAO pedidoDAO;
 
     public Datos() {
-        this.factory = new MySQLDAOFactory();
+        this.factory = new JPADAOFactory();
         this.clienteDAO = factory.getClienteDAO();
         this.articuloDAO = factory.getArticuloDAO();
         this.pedidoDAO = factory.getPedidoDAO();
