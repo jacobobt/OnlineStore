@@ -1,81 +1,103 @@
 package innerjoinsquad.modelo;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "pedidos")
 public class Pedido {
 
-    private int numeroPedido; // ID
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numero_pedido")
+    private int numeroPedido;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "email_cliente", nullable = false)
     private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "codigo_articulo", nullable = false)
     private Articulo articulo;
+
+    @Column(name = "cantidad", nullable = false)
     private int cantidad;
+
+    @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
+
+    public Pedido() {
+        // Constructor vacío obligatorio para JPA
+    }
 
     public Pedido(int numeroPedido, Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora) {
         this.numeroPedido = numeroPedido;
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
-        this.fechaHora = fechaHora; // de tipo LocalDateTime representa fecha y hora." 2024-01-01T12:00:00"
+        this.fechaHora = fechaHora;
+    }
+
+    public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora) {
+        this.cliente = cliente;
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.fechaHora = fechaHora;
     }
 
     public int getNumeroPedido() {
-
         return numeroPedido;
     }
 
     public void setNumeroPedido(int numeroPedido) {
-
         this.numeroPedido = numeroPedido;
     }
 
     public Cliente getCliente() {
-
         return cliente;
     }
 
     public void setCliente(Cliente cliente) {
-
         this.cliente = cliente;
     }
 
     public Articulo getArticulo() {
-
         return articulo;
     }
 
     public void setArticulo(Articulo articulo) {
-
         this.articulo = articulo;
     }
 
     public int getCantidad() {
-
         return cantidad;
     }
 
     public void setCantidad(int cantidad) {
-
         this.cantidad = cantidad;
     }
 
     public LocalDateTime getFechaHora() {
-
         return fechaHora;
     }
 
     public void setFechaHora(LocalDateTime fechaHora) {
-
         this.fechaHora = fechaHora;
     }
 
-    // Fecha del pedido + minutos de preparación = momento en el que se envía. Es True si ya está enviado.
-    // plusMinutes() es un meto-do que pertenece a la clase LocalDateTime:devuelve una nueva fecha sumándole minutos
     public boolean estaEnviado() {
         LocalDateTime limite = fechaHora.plusMinutes(articulo.getTiempoPreparacionMin());
         return LocalDateTime.now().isAfter(limite) || LocalDateTime.now().isEqual(limite);
     }
 
-    //Devuelve true → el pedido ya fue enviado. Solo se puede eliminar si NO está enviado.
     public boolean sePuedeEliminar() {
         return !estaEnviado();
     }
@@ -86,12 +108,11 @@ public class Pedido {
         return subtotal + envio;
     }
 
-    //Operador ternario necesario porque si creamos cliente null, saldría NullPointerException
     @Override
     public String toString() {
         return "Pedido{" +
                 "numeroPedido=" + numeroPedido +
-                ", cliente=" + (cliente != null ? cliente.getEmailCliente() : "null") + //ternario
+                ", cliente=" + (cliente != null ? cliente.getEmailCliente() : "null") +
                 ", articulo=" + (articulo != null ? articulo.getCodigoArticulo() : "null") +
                 ", cantidad=" + cantidad +
                 ", fechaHora=" + fechaHora +
