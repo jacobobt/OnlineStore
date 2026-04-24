@@ -7,7 +7,7 @@ public class PruebaObtenerArticuloJPA {
     public static void main(String[] args) {
         try {
             ArticuloDAOJPA dao = new ArticuloDAOJPA();
-            Articulo articulo = dao.obtenerArticuloPorCodigo("S207");
+            Articulo articulo = dao.obtenerArticuloPorCodigo("A1");
 
             if (articulo != null) {
                 System.out.println("Articulo encontrado:");
