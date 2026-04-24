@@ -1,11 +1,35 @@
 package innerjoinsquad.modelo;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "clientes")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_cliente")
 public abstract class Cliente {
 
+    @Column(name = "nombre_cliente", nullable = false)
     private String nombreCliente;
+
+    @Column(name = "domicilio_cliente", nullable = false)
     private String domicilioCliente;
+
+    @Column(name = "nif_cliente", nullable = false)
     private String nifCliente;
-    private String emailCliente; // ID
+
+    @Id
+    @Column(name = "email_cliente", nullable = false)
+    private String emailCliente;
+
+    public Cliente() {
+        // Constructor vacío obligatorio para JPA
+    }
 
     public Cliente(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {
         this.nombreCliente = nombreCliente;
@@ -46,8 +70,6 @@ public abstract class Cliente {
         this.emailCliente = emailCliente;
     }
 
-    // Estos métodos los dejamos porque estaban en el diagrama.
-    // En ClienteEstandar y ClientePremium los implementamos diferente.
     public boolean esPremium() {
         return false;
     }

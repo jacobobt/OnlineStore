@@ -1,11 +1,20 @@
 package innerjoinsquad.modelo;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("ESTANDAR")
 public class ClienteEstandar extends Cliente {
+
+    public ClienteEstandar() {
+        super();
+    }
 
     public ClienteEstandar(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {
         super(nombreCliente, domicilioCliente, nifCliente, emailCliente);
     }
-    //lo mantiene falso, como estaba por defecto
+
     @Override
     public boolean esPremium() {
         return false;
@@ -13,7 +22,7 @@ public class ClienteEstandar extends Cliente {
 
     @Override
     public double aplicarDescuentoEnvio(double gastosEnvioBase) {
-        return gastosEnvioBase; // sin descuento
+        return gastosEnvioBase;
     }
 
     @Override
