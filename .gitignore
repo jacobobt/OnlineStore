@@ -9,3 +9,6 @@ out/
 
 # Archivos temporales
 *.log
+
+# Carpeta de compilación de Maven
+target/
