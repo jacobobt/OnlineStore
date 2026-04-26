@@ -1,13 +1,34 @@
 package innerjoinsquad.modelo;
+import jakarta.persistence.Entity; // Marca la clase como entidad JPA (tabla en la BD)
+import jakarta.persistence.Id; // Marca el atributo como clave primaria
+import jakarta.persistence.Table; // Especidifca el nombre de la tabla en la BD
+import jakarta.persistence.Column; // Especifica el nombre de la columna en la BD
+import jakarta.persistence.ManyToOne; // Define una relación muchos a uno entre tablas
+import jakarta.persistence.JoinColumn; // Especifica la columna de unión en la relación
+import jakarta.persistence.GeneratedValue; // Anotación que indica que el valor del atributo se genera automáticamente
+import jakarta.persistence.GenerationType; // Define cómo se genera el valor automático, en nuestro caso IDENTITY delega en el AUTO_INCREMENT de MySQL.
+
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "pedidos")
+
 public class Pedido {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numero_pedido")
     private int numeroPedido; // ID
+    @ManyToOne
+    @JoinColumn(name = "email_cliente")
     private Cliente cliente;
+    @ManyToOne
+    @JoinColumn(name = "codigo_articulo")
     private Articulo articulo;
+    @Column(name = "cantidad")
     private int cantidad;
+    @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
     public Pedido(int numeroPedido, Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora) {
@@ -17,6 +38,9 @@ public class Pedido {
         this.cantidad = cantidad;
         this.fechaHora = fechaHora; // de tipo LocalDateTime representa fecha y hora." 2024-01-01T12:00:00"
     }
+
+    // Constructor vacio que añado porque es obligatorio para JPA
+    public Pedido() {}
 
     public int getNumeroPedido() {
 

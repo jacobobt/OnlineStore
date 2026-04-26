@@ -1,12 +1,32 @@
 package innerjoinsquad.modelo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+
+@Entity
+@Table(name = "articulos")
 public class Articulo {
 
-    private String codigoArticulo; // ID
+    @Id
+    @Column(name = "codigo_articulo")
+    private String codigoArticulo;
+
+    @Column(name = "descripcion")
     private String descripcionArticulo;
+
+    @Column(name = "precio_venta")
     private double precioVenta;
+
+    @Column(name = "gastos_envio")
     private double gastosEnvio;
+
+    @Column(name = "tiempo_preparacion_min")
     private int tiempoPreparacionMin;
+
+    // Constructor vació que añado porque es obligatorio para JPA
+    public Articulo() {}
 
     public Articulo(String codigoArticulo, String descripcionArticulo, double precioVenta, double gastosEnvio, int tiempoPreparacionMin) {
         this.codigoArticulo = codigoArticulo;

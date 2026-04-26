@@ -2,7 +2,7 @@ package innerjoinsquad.vista;
 
 public class Main {
     public static void main(String[] args) {
-        Vista vista = new Vista();
+        innerjoinsquad.vista.Vista vista = new innerjoinsquad.vista.Vista();
         int opcion = -1;
 
         vista.mostrarMensajeInicio();
