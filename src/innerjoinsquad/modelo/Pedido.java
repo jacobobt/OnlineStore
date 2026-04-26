@@ -5,6 +5,8 @@ import jakarta.persistence.Table; // Especidifca el nombre de la tabla en la BD
 import jakarta.persistence.Column; // Especifica el nombre de la columna en la BD
 import jakarta.persistence.ManyToOne; // Define una relación muchos a uno entre tablas
 import jakarta.persistence.JoinColumn; // Especifica la columna de unión en la relación
+import jakarta.persistence.GeneratedValue; // Anotación que indica que el valor del atributo se genera automáticamente
+import jakarta.persistence.GenerationType; // Define cómo se genera el valor automático, en nuestro caso IDENTITY delega en el AUTO_INCREMENT de MySQL.
 
 
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 public class Pedido {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "numero_pedido")
     private int numeroPedido; // ID
     @ManyToOne

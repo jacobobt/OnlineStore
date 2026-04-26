@@ -158,17 +158,13 @@ public class Vista {
     public void anadirPedidoVista() {
         teclado.nextLine();
 
-        System.out.print("Introduce el numero del pedido: ");
-        int numeroPedido = teclado.nextInt();
-        teclado.nextLine();
-
         System.out.print("Introduce el email del cliente: ");
         String emailCliente = teclado.nextLine();
 
         Cliente cliente = controlador.buscarClientePorEmail(emailCliente);
 
         if (cliente == null) {
-            System.out.println("El cliente no existe. Se procedera a darlo de alta.");
+            System.out.println("El cliente no existe. Se procederá a darlo de alta.");
 
             System.out.print("Introduce el nombre del cliente: ");
             String nombre = teclado.nextLine();
@@ -182,7 +178,7 @@ public class Vista {
             System.out.println("Tipo de cliente:");
             System.out.println("1. Cliente estandar");
             System.out.println("2. Cliente premium");
-            System.out.print("Elige una opcion: ");
+            System.out.print("Elige una opción: ");
             int tipoCliente = teclado.nextInt();
             teclado.nextLine();
 
@@ -210,7 +206,7 @@ public class Vista {
         int cantidad = teclado.nextInt();
 
         Pedido pedido = new Pedido(
-                numeroPedido,
+                0,
                 cliente,
                 articulo,
                 cantidad,
