@@ -1,35 +1,35 @@
 package innerjoinsquad.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
 
 @Entity
 @Table(name = "clientes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
 @DiscriminatorColumn(name = "tipo_cliente")
+@DiscriminatorValue("CLIENTE")
+
 public abstract class Cliente {
 
-    @Column(name = "nombre_cliente", nullable = false)
+    @Column(name = "nombre_cliente")
     private String nombreCliente;
-
-    @Column(name = "domicilio_cliente", nullable = false)
+    @Column(name = "domicilio_cliente")
     private String domicilioCliente;
-
-    @Column(name = "nif_cliente", nullable = false)
+    @Column(name = "nif_cliente")
     private String nifCliente;
-
     @Id
-    @Column(name = "email_cliente", nullable = false)
-    private String emailCliente;
+    @Column(name = "email_cliente")
+    private String emailCliente; // ID
 
-    public Cliente() {
-        // Constructor vacío obligatorio para JPA
-    }
+    // Constructor vacio que añado porque es obligatorio para JPA
+    public Cliente() {}
 
     public Cliente(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {
         this.nombreCliente = nombreCliente;
@@ -70,6 +70,8 @@ public abstract class Cliente {
         this.emailCliente = emailCliente;
     }
 
+    // Estos métodos los dejamos porque estaban en el diagrama.
+    // En ClienteEstandar y ClientePremium los implementamos diferente.
     public boolean esPremium() {
         return false;
     }

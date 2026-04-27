@@ -11,16 +11,19 @@ public class JPADAOFactory extends DAOFactory {
 
     @Override
     public ClienteDAO getClienteDAO() {
+        // devuelve la implementación JPA del DAO de Cliente
         return new ClienteDAOJPA();
     }
 
     @Override
     public ArticuloDAO getArticuloDAO() {
+        // devuelve la implementación JPA del DAO de Articulo
         return new ArticuloDAOJPA();
     }
 
     @Override
     public PedidoDAO getPedidoDAO() {
+        // devuelve la implementación JPA del DAO de Pedido
         return new PedidoDAOJPA();
     }
 }

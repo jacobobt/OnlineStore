@@ -1,173 +1,151 @@
 package innerjoinsquad.modelo.dao.jpa;
 
+import innerjoinsquad.modelo.Articulo;
+import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.PedidoDAO;
 import innerjoinsquad.modelo.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoDAOJPA implements PedidoDAO {
 
+    // EntityManagerFactory gestiona la conexión con la BD
+    private EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
+
     @Override
-    public void insertarPedido(Pedido pedido) throws SQLException {
-        EntityManager em = null;
-        EntityTransaction tx = null;
-
+    public void insertarPedido(Pedido pedido) {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-            tx = em.getTransaction();
-
-            tx.begin();
-            em.persist(pedido);
-            tx.commit();
-
-            System.out.println("Pedido insertado correctamente con JPA.");
-
-        } catch (PersistenceException e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw new SQLException("Error al insertar pedido con JPA.", e);
-
+            em.getTransaction().begin(); // iniciamos la transacción
+            // obtenemos referencias gestionadas por este EntityManager
+            Cliente clienteGestionado = em.find(Cliente.class, pedido.getCliente().getEmailCliente());
+            Articulo articuloGestionado = em.find(Articulo.class, pedido.getArticulo().getCodigoArticulo());
+            // asignamos las referencias gestionadas al pedido
+            pedido.setCliente(clienteGestionado);
+            pedido.setArticulo(articuloGestionado);
+            em.persist(pedido); // guardamos el pedido en la BD
+            em.getTransaction().commit(); // confirmamos los cambios
+        } catch (Exception e) {
+            em.getTransaction().rollback(); // si falla, deshacemos los cambios
+            System.out.println("Error al insertar el pedido: " + e.getMessage());
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close(); // cerramos el EntityManager
         }
     }
 
     @Override
-    public Pedido obtenerPedidoPorNumero(int numeroPedido) throws SQLException {
-        EntityManager em = null;
-
+    public Pedido obtenerPedidoPorNumero(int numeroPedido) {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
+            // em.find busca un pedido por su clave primaria (numeroPedido)
             return em.find(Pedido.class, numeroPedido);
-
-        } catch (PersistenceException e) {
-            throw new SQLException("Error al obtener pedido por número con JPA.", e);
-
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 
     @Override
-    public List<Pedido> listarPedidos() throws SQLException {
-        EntityManager em = null;
-
+    public List<Pedido> listarPedidos() {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-
-            TypedQuery<Pedido> query =
-                    em.createQuery("SELECT p FROM Pedido p ORDER BY p.numeroPedido", Pedido.class);
-
-            return query.getResultList();
-
-        } catch (PersistenceException e) {
-            throw new SQLException("Error al listar pedidos con JPA.", e);
-
+            // JPQL: consulta todos los pedidos de la BD
+            return em.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 
     @Override
-    public void eliminarPedido(int numeroPedido) throws SQLException {
-        EntityManager em = null;
-        EntityTransaction tx = null;
-
+    public void eliminarPedido(int numeroPedido) {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-            tx = em.getTransaction();
-
-            tx.begin();
-
-            Pedido pedido = em.find(Pedido.class, numeroPedido);
+            em.getTransaction().begin(); // iniciamos la transacción
+            Pedido pedido = em.find(Pedido.class, numeroPedido); // buscamos el pedido
             if (pedido != null) {
-                em.remove(pedido);
+                em.remove(pedido); // eliminamos el pedido de la BD
             }
-
-            tx.commit();
-
-            System.out.println("Pedido eliminado correctamente con JPA.");
-
-        } catch (PersistenceException e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw new SQLException("Error al eliminar pedido con JPA.", e);
-
+            em.getTransaction().commit(); // confirmamos los cambios
+        } catch (Exception e) {
+            em.getTransaction().rollback(); // si falla, deshacemos los cambios
+            System.out.println("Error al eliminar el pedido: " + e.getMessage());
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close(); // cerramos el EntityManager
         }
     }
 
     @Override
-    public List<Pedido> listarPedidosPendientes() throws SQLException {
-        List<Pedido> todosLosPedidos = listarPedidos();
-        List<Pedido> pedidosPendientes = new ArrayList<>();
-
-        for (Pedido pedido : todosLosPedidos) {
-            if (!pedido.estaEnviado()) {
-                pedidosPendientes.add(pedido);
+    public List<Pedido> listarPedidosPendientes() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // obtenemos todos los pedidos y filtramos los pendientes
+            List<Pedido> todos = em.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
+            List<Pedido> pendientes = new java.util.ArrayList<>();
+            for (Pedido p : todos) {
+                if (!p.estaEnviado()) pendientes.add(p);
             }
+            return pendientes;
+        } finally {
+            em.close();
         }
-
-        return pedidosPendientes;
     }
 
     @Override
-    public List<Pedido> listarPedidosEnviados() throws SQLException {
-        List<Pedido> todosLosPedidos = listarPedidos();
-        List<Pedido> pedidosEnviados = new ArrayList<>();
-
-        for (Pedido pedido : todosLosPedidos) {
-            if (pedido.estaEnviado()) {
-                pedidosEnviados.add(pedido);
+    public List<Pedido> listarPedidosEnviados() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // obtenemos todos los pedidos y filtramos los enviados
+            List<Pedido> todos = em.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
+            List<Pedido> enviados = new java.util.ArrayList<>();
+            for (Pedido p : todos) {
+                if (p.estaEnviado()) enviados.add(p);
             }
+            return enviados;
+        } finally {
+            em.close();
         }
-
-        return pedidosEnviados;
     }
 
     @Override
-    public List<Pedido> listarPedidosPendientesPorCliente(String emailCliente) throws SQLException {
-        List<Pedido> pedidosPendientes = listarPedidosPendientes();
-        List<Pedido> pedidosPendientesCliente = new ArrayList<>();
-
-        for (Pedido pedido : pedidosPendientes) {
-            if (pedido.getCliente().getEmailCliente().equalsIgnoreCase(emailCliente)) {
-                pedidosPendientesCliente.add(pedido);
+    public List<Pedido> listarPedidosPendientesPorCliente(String emailCliente) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // JPQL: consulta los pedidos pendientes de un cliente concreto
+            List<Pedido> todos = em.createQuery(
+                            "SELECT p FROM Pedido p WHERE p.cliente.emailCliente = :email",
+                            Pedido.class)
+                    .setParameter("email", emailCliente)
+                    .getResultList();
+            List<Pedido> pendientes = new java.util.ArrayList<>();
+            for (Pedido p : todos) {
+                if (!p.estaEnviado()) pendientes.add(p);
             }
+            return pendientes;
+        } finally {
+            em.close();
         }
-
-        return pedidosPendientesCliente;
     }
 
     @Override
-    public List<Pedido> listarPedidosEnviadosPorCliente(String emailCliente) throws SQLException {
-        List<Pedido> pedidosEnviados = listarPedidosEnviados();
-        List<Pedido> pedidosEnviadosCliente = new ArrayList<>();
-
-        for (Pedido pedido : pedidosEnviados) {
-            if (pedido.getCliente().getEmailCliente().equalsIgnoreCase(emailCliente)) {
-                pedidosEnviadosCliente.add(pedido);
+    public List<Pedido> listarPedidosEnviadosPorCliente(String emailCliente) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // JPQL: consulta los pedidos enviados de un cliente concreto
+            List<Pedido> todos = em.createQuery(
+                            "SELECT p FROM Pedido p WHERE p.cliente.emailCliente = :email",
+                            Pedido.class)
+                    .setParameter("email", emailCliente)
+                    .getResultList();
+            List<Pedido> enviados = new java.util.ArrayList<>();
+            for (Pedido p : todos) {
+                if (p.estaEnviado()) enviados.add(p);
             }
+            return enviados;
+        } finally {
+            em.close();
         }
-
-        return pedidosEnviadosCliente;
     }
 }

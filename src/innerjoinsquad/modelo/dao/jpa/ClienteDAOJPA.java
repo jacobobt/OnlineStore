@@ -3,81 +3,51 @@ package innerjoinsquad.modelo.dao.jpa;
 import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.dao.ClienteDAO;
 import innerjoinsquad.modelo.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ClienteDAOJPA implements ClienteDAO {
 
+    // EntityManagerFactory gestiona la conexión con la BD
+    private EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
+
     @Override
-    public void insertarCliente(Cliente cliente) throws SQLException {
-        EntityManager em = null;
-        EntityTransaction tx = null;
-
+    public void insertarCliente(Cliente cliente) {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-            tx = em.getTransaction();
-
-            tx.begin();
-            em.persist(cliente);
-            tx.commit();
-
-            System.out.println("Cliente insertado correctamente con JPA.");
-
-        } catch (PersistenceException e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw new SQLException("Error al insertar cliente con JPA.", e);
-
+            em.getTransaction().begin(); // iniciamos la transacción
+            em.persist(cliente); // guardamos el cliente en la BD
+            em.getTransaction().commit(); // confirmamos los cambios
+        } catch (Exception e) {
+            em.getTransaction().rollback(); // si falla, deshacemos los cambios
+            System.out.println("Error al insertar cliente: " + e.getMessage());
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close(); // cerramos el EntityManager
         }
     }
 
     @Override
-    public Cliente obtenerClientePorEmail(String email) throws SQLException {
-        EntityManager em = null;
-
+    public Cliente obtenerClientePorEmail(String email) {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
+            // em.find busca un cliente por su clave primaria (email)
             return em.find(Cliente.class, email);
-
-        } catch (PersistenceException e) {
-            throw new SQLException("Error al obtener cliente por email con JPA.", e);
-
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 
     @Override
-    public List<Cliente> listarClientes() throws SQLException {
-        EntityManager em = null;
-
+    public List<Cliente> listarClientes() {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-
-            TypedQuery<Cliente> query =
-                    em.createQuery("SELECT c FROM Cliente c", Cliente.class);
-
-            return query.getResultList();
-
-        } catch (PersistenceException e) {
-            throw new SQLException("Error al listar clientes con JPA.", e);
-
+            // JPQL: consulta todos los clientes de la BD
+            return em.createQuery("SELECT c FROM Cliente c", Cliente.class).getResultList();
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 }

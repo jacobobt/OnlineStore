@@ -10,9 +10,5 @@ out/
 # Archivos temporales
 *.log
 
-.DS_Store
-
+# Carpeta de compilación de Maven
 target/
-
-
-*.iml

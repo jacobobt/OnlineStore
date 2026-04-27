@@ -1,20 +1,21 @@
 package innerjoinsquad.modelo;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
 
 @Entity
 @DiscriminatorValue("ESTANDAR")
-public class ClienteEstandar extends Cliente {
 
-    public ClienteEstandar() {
-        super();
-    }
+public class ClienteEstandar extends Cliente {
 
     public ClienteEstandar(String nombreCliente, String domicilioCliente, String nifCliente, String emailCliente) {
         super(nombreCliente, domicilioCliente, nifCliente, emailCliente);
     }
 
+    // Constructor vació que añado porque es obligatorio para JPA
+    public ClienteEstandar() {}
+
+    //lo mantiene falso, como estaba por defecto
     @Override
     public boolean esPremium() {
         return false;
@@ -22,7 +23,7 @@ public class ClienteEstandar extends Cliente {
 
     @Override
     public double aplicarDescuentoEnvio(double gastosEnvioBase) {
-        return gastosEnvioBase;
+        return gastosEnvioBase; // sin descuento
     }
 
     @Override

@@ -3,81 +3,52 @@ package innerjoinsquad.modelo.dao.jpa;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.dao.ArticuloDAO;
 import innerjoinsquad.modelo.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ArticuloDAOJPA implements ArticuloDAO {
 
+    // EntityManagerFactory es el equivalente a ConexionBD, gestiona la conexión con la BD
+    private EntityManagerFactory emf = JPAUtil.getEntityManagerFactory();
+
     @Override
-    public void insertarArticulo(Articulo articulo) throws SQLException {
-        EntityManager em = null;
-        EntityTransaction tx = null;
-
+    public void insertarArticulo(Articulo articulo) {
+        // EntityManager es el objeto que realiza las operaciones en la BD
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-            tx = em.getTransaction();
-
-            tx.begin();
-            em.persist(articulo);
-            tx.commit();
-
-            System.out.println("Artículo insertado correctamente con JPA.");
-
-        } catch (PersistenceException e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw new SQLException("Error al insertar artículo con JPA.", e);
-
+            em.getTransaction().begin(); // iniciamos la transacción
+            em.persist(articulo); // guardamos el artículo en la BD
+            em.getTransaction().commit(); // confirmamos los cambios
+        } catch (Exception e) {
+            em.getTransaction().rollback(); // si falla, deshacemos los cambios
+            System.out.println("Error al insertar artículo: " + e.getMessage());
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close(); // cerramos el EntityManager
         }
     }
 
     @Override
-    public Articulo obtenerArticuloPorCodigo(String codigo) throws SQLException {
-        EntityManager em = null;
-
+    public Articulo obtenerArticuloPorCodigo(String codigo) {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
+            // em.find busca un artículo por su clave primaria (codigo)
             return em.find(Articulo.class, codigo);
-
-        } catch (PersistenceException e) {
-            throw new SQLException("Error al obtener artículo por código con JPA.", e);
-
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 
     @Override
-    public List<Articulo> listarArticulos() throws SQLException {
-        EntityManager em = null;
-
+    public List<Articulo> listarArticulos() {
+        EntityManager em = emf.createEntityManager();
         try {
-            em = JPAUtil.getEntityManager();
-
-            TypedQuery<Articulo> query =
-                    em.createQuery("SELECT a FROM Articulo a", Articulo.class);
-
-            return query.getResultList();
-
-        } catch (PersistenceException e) {
-            throw new SQLException("Error al listar artículos con JPA.", e);
-
+            // JPQL: lenguaje de consultas de JPA, similar a SQL pero usando clases Java
+            return em.createQuery("SELECT a FROM Articulo a", Articulo.class).getResultList();
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            em.close();
         }
     }
 }

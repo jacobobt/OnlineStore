@@ -95,6 +95,7 @@ public class Vista {
 
     public void anadirArticuloVista() {
         teclado.nextLine();
+        teclado.useLocale(java.util.Locale.US); // forzar punto como separador decimal
 
         System.out.print("Introduce el codigo del articulo: ");
         String codigo = teclado.nextLine();
@@ -103,10 +104,36 @@ public class Vista {
         String descripcion = teclado.nextLine();
 
         System.out.print("Introduce el precio de venta: ");
-        double precioVenta = teclado.nextDouble();
+        double precioVenta;
+        while (true) {
+            String input = teclado.nextLine().trim();
+            if (input.contains(",")) {
+                System.out.print("Usa punto como separador decimal. Introduce el precio de venta: ");
+            } else {
+                try {
+                    precioVenta = Double.parseDouble(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.print("Valor no válido. Introduce el precio de venta: ");
+                }
+            }
+        }
 
         System.out.print("Introduce los gastos de envio: ");
-        double gastosEnvio = teclado.nextDouble();
+        double gastosEnvio;
+        while (true) {
+            String input = teclado.nextLine().trim();
+            if (input.contains(",")) {
+                System.out.print("Usa punto como separador decimal. Introduce los gastos de envio: ");
+            } else {
+                try {
+                    gastosEnvio = Double.parseDouble(input);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.print("Valor no válido. Introduce los gastos de envio: ");
+                }
+            }
+        }
 
         System.out.print("Introduce el tiempo de preparacion en minutos: ");
         int tiempoPreparacionMin = teclado.nextInt();
@@ -137,7 +164,7 @@ public class Vista {
         Cliente cliente = controlador.buscarClientePorEmail(emailCliente);
 
         if (cliente == null) {
-            System.out.println("El cliente no existe. Se procedera a darlo de alta.");
+            System.out.println("El cliente no existe. Se procederá a darlo de alta.");
 
             System.out.print("Introduce el nombre del cliente: ");
             String nombre = teclado.nextLine();
@@ -151,7 +178,7 @@ public class Vista {
             System.out.println("Tipo de cliente:");
             System.out.println("1. Cliente estandar");
             System.out.println("2. Cliente premium");
-            System.out.print("Elige una opcion: ");
+            System.out.print("Elige una opción: ");
             int tipoCliente = teclado.nextInt();
             teclado.nextLine();
 
@@ -179,6 +206,7 @@ public class Vista {
         int cantidad = teclado.nextInt();
 
         Pedido pedido = new Pedido(
+                0,
                 cliente,
                 articulo,
                 cantidad,

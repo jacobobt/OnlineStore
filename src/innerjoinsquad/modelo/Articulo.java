@@ -1,33 +1,32 @@
 package innerjoinsquad.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "articulos")
 public class Articulo {
 
     @Id
-    @Column(name = "codigo_articulo", nullable = false)
+    @Column(name = "codigo_articulo")
     private String codigoArticulo;
 
-    @Column(name = "descripcion", nullable = false)
+    @Column(name = "descripcion")
     private String descripcionArticulo;
 
-    @Column(name = "precio_venta", nullable = false)
+    @Column(name = "precio_venta")
     private double precioVenta;
 
-    @Column(name = "gastos_envio", nullable = false)
+    @Column(name = "gastos_envio")
     private double gastosEnvio;
 
-    @Column(name = "tiempo_preparacion_min", nullable = false)
+    @Column(name = "tiempo_preparacion_min")
     private int tiempoPreparacionMin;
 
-    public Articulo() {
-        // Constructor vacío obligatorio para JPA
-    }
+    // Constructor vació que añado porque es obligatorio para JPA
+    public Articulo() {}
 
     public Articulo(String codigoArticulo, String descripcionArticulo, double precioVenta, double gastosEnvio, int tiempoPreparacionMin) {
         this.codigoArticulo = codigoArticulo;
@@ -38,10 +37,12 @@ public class Articulo {
     }
 
     public String getCodigoArticulo() {
+
         return codigoArticulo;
     }
 
     public void setCodigoArticulo(String codigoArticulo) {
+
         this.codigoArticulo = codigoArticulo;
     }
 

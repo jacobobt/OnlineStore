@@ -19,7 +19,7 @@ public class Datos {
     private PedidoDAO pedidoDAO;
 
     public Datos() {
-        this.factory = new JPADAOFactory();
+        this.factory = new JPADAOFactory(); // usamos JPA en lugar de MySQL
         this.clienteDAO = factory.getClienteDAO();
         this.articuloDAO = factory.getArticuloDAO();
         this.pedidoDAO = factory.getPedidoDAO();
