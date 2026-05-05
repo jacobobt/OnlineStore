@@ -3,6 +3,8 @@ package innerjoinsquad;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.dao.jpa.ArticuloDAOJPA;
 
+import java.math.BigDecimal;
+
 public class PruebaInsertarArticuloJPA {
 
     public static void main(String[] args) {
@@ -10,8 +12,8 @@ public class PruebaInsertarArticuloJPA {
         Articulo articulo = new Articulo(
                 "A002",
                 "Teclado mecánico",
-                79.99,
-                5.50,
+                new BigDecimal("79.99"),
+                new BigDecimal("5.50"),
                 30
         );
 

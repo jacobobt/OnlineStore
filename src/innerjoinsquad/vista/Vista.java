@@ -6,6 +6,8 @@ import innerjoinsquad.modelo.ClienteEstandar;
 import innerjoinsquad.modelo.ClientePremium;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Pedido;
+
+import java.math.BigDecimal;
 import java.util.Scanner;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
@@ -104,14 +106,14 @@ public class Vista {
         String descripcion = teclado.nextLine();
 
         System.out.print("Introduce el precio de venta: ");
-        double precioVenta;
+        BigDecimal precioVenta;
         while (true) {
             String input = teclado.nextLine().trim();
             if (input.contains(",")) {
                 System.out.print("Usa punto como separador decimal. Introduce el precio de venta: ");
             } else {
                 try {
-                    precioVenta = Double.parseDouble(input);
+                    precioVenta = new BigDecimal(input);
                     break;
                 } catch (NumberFormatException e) {
                     System.out.print("Valor no válido. Introduce el precio de venta: ");
@@ -120,14 +122,14 @@ public class Vista {
         }
 
         System.out.print("Introduce los gastos de envio: ");
-        double gastosEnvio;
+        BigDecimal gastosEnvio;
         while (true) {
             String input = teclado.nextLine().trim();
             if (input.contains(",")) {
                 System.out.print("Usa punto como separador decimal. Introduce los gastos de envio: ");
             } else {
                 try {
-                    gastosEnvio = Double.parseDouble(input);
+                    gastosEnvio = new BigDecimal(input);
                     break;
                 } catch (NumberFormatException e) {
                     System.out.print("Valor no válido. Introduce los gastos de envio: ");

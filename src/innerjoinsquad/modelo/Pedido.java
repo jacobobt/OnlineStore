@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue; // Anotación que indica que el valor
 import jakarta.persistence.GenerationType; // Define cómo se genera el valor automático, en nuestro caso IDENTITY delega en el AUTO_INCREMENT de MySQL.
 
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -104,10 +105,10 @@ public class Pedido {
         return !estaEnviado();
     }
 
-    public double calcularTotal() {
-        double subtotal = articulo.getPrecioVenta() * cantidad;
-        double envio = cliente.aplicarDescuentoEnvio(articulo.getGastosEnvio());
-        return subtotal + envio;
+    public BigDecimal calcularTotal() {
+        BigDecimal subtotal = articulo.getPrecioVenta().multiply(BigDecimal.valueOf(cantidad));
+        BigDecimal envio = cliente.aplicarDescuentoEnvio(articulo.getGastosEnvio());
+        return subtotal.add(envio);
     }
 
     //Operador ternario necesario porque si creamos cliente null, saldría NullPointerException
