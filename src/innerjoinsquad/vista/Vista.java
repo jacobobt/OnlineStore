@@ -9,6 +9,8 @@ import innerjoinsquad.modelo.Pedido;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
+import innerjoinsquad.modelo.excepciones.ArticuloNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.ClienteNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 
@@ -34,15 +36,17 @@ public class Vista {
         System.out.println("----- MENU -----");
         System.out.println("1. Añadir cliente");
         System.out.println("2. Mostrar clientes");
-        System.out.println("3. Añadir articulo");
-        System.out.println("4. Mostrar articulos");
-        System.out.println("5. Añadir pedido");
-        System.out.println("6. Mostrar pedidos");
-        System.out.println("7. Eliminar pedido");
-        System.out.println("8. Mostrar pedidos pendientes");
-        System.out.println("9. Mostrar pedidos enviados");
-        System.out.println("10. Mostrar pedidos pendientes por cliente");
-        System.out.println("11. Mostrar pedidos enviados por cliente");
+        System.out.println("3. Borrar cliente");
+        System.out.println("4. Añadir articulo");
+        System.out.println("5. Mostrar articulos");
+        System.out.println("6. Borrar articulo");
+        System.out.println("7. Añadir pedido");
+        System.out.println("8. Mostrar pedidos");
+        System.out.println("9. Eliminar pedido");
+        System.out.println("10. Mostrar pedidos pendientes");
+        System.out.println("11. Mostrar pedidos enviados");
+        System.out.println("12. Mostrar pedidos pendientes por cliente");
+        System.out.println("13. Mostrar pedidos enviados por cliente");
         System.out.println("0. Salir");
     }
 
@@ -241,6 +245,38 @@ public class Vista {
             System.out.println("No se puede eliminar el pedido porque ya ha sido enviado.");
         } catch (PedidoNoEncontradoExcepcion e) {
             System.out.println("Error: no existe un pedido con ese numero.");
+        }
+    }
+
+    public void eliminarClienteVista() {
+        teclado.nextLine();
+
+        System.out.print("Introduce el email del cliente que quieres borrar: ");
+        String email = teclado.nextLine();
+
+        try {
+            controlador.eliminarCliente(email);
+            System.out.println("Cliente borrado correctamente.");
+        } catch (ClienteNoEncontradoExcepcion e) {
+            System.out.println("Error: no existe un cliente con ese email.");
+        } catch (RuntimeException e) {
+            System.out.println("Error: no se ha podido borrar el cliente. Comprueba si tiene pedidos asociados.");
+        }
+    }
+
+    public void eliminarArticuloVista() {
+        teclado.nextLine();
+
+        System.out.print("Introduce el codigo del articulo que quieres borrar: ");
+        String codigo = teclado.nextLine();
+
+        try {
+            controlador.eliminarArticulo(codigo);
+            System.out.println("Articulo borrado correctamente.");
+        } catch (ArticuloNoEncontradoExcepcion e) {
+            System.out.println("Error: no existe un articulo con ese codigo.");
+        } catch (RuntimeException e) {
+            System.out.println("Error: no se ha podido borrar el articulo. Comprueba si tiene pedidos asociados.");
         }
     }
 

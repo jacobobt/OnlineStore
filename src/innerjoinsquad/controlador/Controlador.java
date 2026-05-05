@@ -4,6 +4,8 @@ import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Datos;
 import innerjoinsquad.modelo.Pedido;
+import innerjoinsquad.modelo.excepciones.ArticuloNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.ClienteNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 
@@ -61,6 +63,14 @@ public class Controlador {
 
     public void eliminarPedido(int numeroPedido) throws PedidoNoEncontradoExcepcion, PedidoYaEnviadoExcepcion {
         datos.eliminarPedido(numeroPedido);
+    }
+
+    public void eliminarCliente(String email) throws ClienteNoEncontradoExcepcion {
+        datos.eliminarCliente(email);
+    }
+
+    public void eliminarArticulo(String codigo) throws ArticuloNoEncontradoExcepcion {
+        datos.eliminarArticulo(codigo);
     }
 
     public java.util.ArrayList<Pedido> getPedidosPendientes() {

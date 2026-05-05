@@ -12,4 +12,6 @@ public interface ArticuloDAO {
     Articulo obtenerArticuloPorCodigo(String codigo) throws SQLException;
 
     List<Articulo> listarArticulos() throws SQLException;
+
+    void eliminarArticulo(String codigo) throws SQLException;
 }

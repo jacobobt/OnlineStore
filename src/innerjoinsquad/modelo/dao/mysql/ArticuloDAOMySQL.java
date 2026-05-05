@@ -95,4 +95,16 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
 
         return listaArticulos;
     }
+
+    @Override
+    public void eliminarArticulo(String codigo) throws SQLException {
+        String sql = "DELETE FROM articulos WHERE codigo_articulo = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, codigo);
+            ps.executeUpdate();
+        }
+    }
 }

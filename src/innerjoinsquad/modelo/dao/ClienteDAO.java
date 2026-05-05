@@ -11,4 +11,6 @@ public interface ClienteDAO {
     Cliente obtenerClientePorEmail(String email) throws SQLException;
 
     List<Cliente> listarClientes() throws SQLException;
+
+    void eliminarCliente(String email) throws SQLException;
 }

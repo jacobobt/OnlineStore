@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ClienteDAOJPA implements ClienteDAO {
@@ -46,6 +47,24 @@ public class ClienteDAOJPA implements ClienteDAO {
         try {
             // JPQL: consulta todos los clientes de la BD
             return em.createQuery("SELECT c FROM Cliente c", Cliente.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public void eliminarCliente(String email) throws SQLException {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Cliente cliente = em.find(Cliente.class, email);
+            if (cliente != null) {
+                em.remove(cliente);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new SQLException("Error al eliminar cliente.", e);
         } finally {
             em.close();
         }

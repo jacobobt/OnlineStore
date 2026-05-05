@@ -16,22 +16,26 @@ public class Main {
             } else if (opcion == 2) {
                 vista.mostrarClientesVista();
             } else if (opcion == 3) {
-                vista.anadirArticuloVista();
+                vista.eliminarClienteVista();
             } else if (opcion == 4) {
-                vista.mostrarArticulosVista();
+                vista.anadirArticuloVista();
             } else if (opcion == 5) {
-                vista.anadirPedidoVista();
+                vista.mostrarArticulosVista();
             } else if (opcion == 6) {
-                vista.mostrarPedidosVista();
+                vista.eliminarArticuloVista();
             } else if (opcion == 7) {
-                vista.eliminarPedidoVista();
+                vista.anadirPedidoVista();
             } else if (opcion == 8) {
-                vista.mostrarPedidosPendientesVista();
+                vista.mostrarPedidosVista();
             } else if (opcion == 9) {
-                vista.mostrarPedidosEnviadosVista();
+                vista.eliminarPedidoVista();
             } else if (opcion == 10) {
-                vista.mostrarPedidosPendientesPorClienteVista();
+                vista.mostrarPedidosPendientesVista();
             } else if (opcion == 11) {
+                vista.mostrarPedidosEnviadosVista();
+            } else if (opcion == 12) {
+                vista.mostrarPedidosPendientesPorClienteVista();
+            } else if (opcion == 13) {
                 vista.mostrarPedidosEnviadosPorClienteVista();
             } else if (opcion == 0) {
                 System.out.println("Saliendo del programa...");
