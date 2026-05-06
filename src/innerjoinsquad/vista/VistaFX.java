@@ -54,6 +54,7 @@ public class VistaFX extends Application {
         menu.getChildren().add(titulo);
 
         // Botones del menú
+        menu.getChildren().add(crearBotonMenu("0. Inicio", () -> mostrarBienvenida()));
         menu.getChildren().add(crearBotonMenu("1. Añadir cliente", () -> mostrarFormAnadirCliente()));
         menu.getChildren().add(crearBotonMenu("2. Mostrar clientes", () -> mostrarClientes()));
         menu.getChildren().add(crearBotonMenu("3. Borrar cliente", () -> mostrarFormBorrarCliente()));
@@ -69,7 +70,7 @@ public class VistaFX extends Application {
         menu.getChildren().add(crearBotonMenu("13. Enviados por cliente", () -> mostrarFormPedidosEnviadosPorCliente()));
 
         // Botón de salir
-        Button btnSalir = new Button("0. Salir");
+        Button btnSalir = new Button("14. Salir");
         btnSalir.setMaxWidth(Double.MAX_VALUE);
         btnSalir.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
         btnSalir.setOnAction(e -> System.exit(0));
