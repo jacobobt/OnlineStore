@@ -6,6 +6,7 @@ import innerjoinsquad.modelo.ClienteEstandar;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.jpa.PedidoDAOJPA;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class PruebaInsertarPedidoJPA {
@@ -22,8 +23,8 @@ public class PruebaInsertarPedidoJPA {
         Articulo articulo = new Articulo(
                 "A002",
                 "Teclado mecánico",
-                79.99,
-                5.50,
+                new BigDecimal("79.99"),
+                new BigDecimal("5.50"),
                 30
         );
 

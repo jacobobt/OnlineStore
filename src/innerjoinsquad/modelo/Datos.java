@@ -3,6 +3,8 @@ package innerjoinsquad.modelo;
 import innerjoinsquad.modelo.dao.ArticuloDAO;
 import innerjoinsquad.modelo.dao.ClienteDAO;
 import innerjoinsquad.modelo.dao.PedidoDAO;
+import innerjoinsquad.modelo.excepciones.ArticuloNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.ClienteNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 import innerjoinsquad.modelo.factory.DAOFactory;
@@ -113,6 +115,34 @@ public class Datos {
 
         } catch (SQLException e) {
             throw new RuntimeException("Error al eliminar pedido en la base de datos.", e);
+        }
+    }
+
+    public void eliminarCliente(String email) throws ClienteNoEncontradoExcepcion {
+        try {
+            Cliente cliente = clienteDAO.obtenerClientePorEmail(email);
+
+            if (cliente == null) {
+                throw new ClienteNoEncontradoExcepcion(email);
+            }
+
+            clienteDAO.eliminarCliente(email);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar cliente en la base de datos.", e);
+        }
+    }
+
+    public void eliminarArticulo(String codigo) throws ArticuloNoEncontradoExcepcion {
+        try {
+            Articulo articulo = articuloDAO.obtenerArticuloPorCodigo(codigo);
+
+            if (articulo == null) {
+                throw new ArticuloNoEncontradoExcepcion(codigo);
+            }
+
+            articuloDAO.eliminarArticulo(codigo);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar artículo en la base de datos.", e);
         }
     }
 

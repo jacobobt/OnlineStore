@@ -9,6 +9,8 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorValue;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "clientes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -76,7 +78,7 @@ public abstract class Cliente {
         return false;
     }
 
-    public double aplicarDescuentoEnvio(double gastosEnvioBase) {
+    public BigDecimal aplicarDescuentoEnvio(BigDecimal gastosEnvioBase) {
         return gastosEnvioBase;
     }
 

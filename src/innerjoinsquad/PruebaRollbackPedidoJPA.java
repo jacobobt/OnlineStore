@@ -6,6 +6,7 @@ import innerjoinsquad.modelo.ClienteEstandar;
 import innerjoinsquad.modelo.Pedido;
 import innerjoinsquad.modelo.dao.jpa.PedidoDAOJPA;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class PruebaRollbackPedidoJPA {
@@ -23,8 +24,8 @@ public class PruebaRollbackPedidoJPA {
         Articulo articulo = new Articulo(
                 "NO_EXISTE",
                 "Artículo inventado",
-                10.0,
-                2.0,
+                new BigDecimal("10.00"),
+                new BigDecimal("2.00"),
                 5
         );
 
