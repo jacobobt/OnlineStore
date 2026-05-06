@@ -83,9 +83,27 @@ public class VistaFX extends Application {
 
     private void mostrarBienvenida() {
         areaContenido.getChildren().clear();
+
+        // Mensaje de bienvenida debajo de la imagen
         Label label = new Label("Bienvenido a Online Store");
         label.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        VBox.setMargin(label, new Insets(10, 0, 0, 0));
         areaContenido.getChildren().add(label);
+
+        // Carga de la imagen de bienvenida creada
+        try {
+            javafx.scene.image.Image imagen = new javafx.scene.image.Image(
+                    getClass().getResourceAsStream("/recursos/OnlineStore.png")
+            );
+            javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(imagen);
+            imageView.setFitWidth(860);
+            imageView.setFitHeight(400);
+            imageView.setPreserveRatio(true);
+            areaContenido.getChildren().add(imageView);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar la imagen: " + e.getMessage());
+        }
+
     }
 
     private void mostrarMensaje(String mensaje) {
