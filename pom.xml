@@ -69,6 +69,12 @@
                     <include>META-INF/**</include>
                 </includes>
             </resource>
+
+            <resource>
+                <directory>src/recursos</directory>
+                <targetPath>recursos</targetPath>
+            </resource>
+
         </resources>
 
         <plugins>
