@@ -115,7 +115,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormAnadirCliente() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Añadir Cliente ---"));
+        areaContenido.getChildren().add(new Label("Añadir cliente: "));
 
         TextField nombre = new TextField();
         nombre.setPromptText("Nombre");
@@ -149,7 +149,7 @@ public class VistaFX extends Application {
 
     private void mostrarClientes() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Listado de Clientes ---"));
+        areaContenido.getChildren().add(new Label("Listado de clientes: "));
 
         ArrayList<Cliente> clientes = controlador.getClientes();
         if (clientes.isEmpty()) {
@@ -163,7 +163,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormBorrarCliente() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Borrar Cliente ---"));
+        areaContenido.getChildren().add(new Label("Borrar cliente: "));
 
         TextField email = new TextField();
         email.setPromptText("Email del cliente");
@@ -188,7 +188,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormAnadirArticulo() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Añadir Artículo ---"));
+        areaContenido.getChildren().add(new Label("Añadir artículo: "));
 
         TextField codigo = new TextField();
         codigo.setPromptText("Código");
@@ -222,7 +222,7 @@ public class VistaFX extends Application {
 
     private void mostrarArticulos() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Listado de Artículos ---"));
+        areaContenido.getChildren().add(new Label("Listado de artículos: "));
 
         ArrayList<Articulo> articulos = controlador.getArticulos();
         if (articulos.isEmpty()) {
@@ -236,7 +236,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormBorrarArticulo() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Borrar Artículo ---"));
+        areaContenido.getChildren().add(new Label("Borrar artículo: "));
 
         TextField codigo = new TextField();
         codigo.setPromptText("Código del artículo");
@@ -261,7 +261,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormAnadirPedido() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Añadir Pedido ---"));
+        areaContenido.getChildren().add(new Label("Añadir pedido: "));
 
         TextField emailCliente = new TextField();
         emailCliente.setPromptText("Email del cliente");
@@ -299,7 +299,7 @@ public class VistaFX extends Application {
 
     private void mostrarPedidos() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Listado de Pedidos ---"));
+        areaContenido.getChildren().add(new Label("Listado de pedidos: "));
 
         ArrayList<Pedido> pedidos = controlador.getPedidos();
         if (pedidos.isEmpty()) {
@@ -313,7 +313,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormEliminarPedido() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Eliminar Pedido ---"));
+        areaContenido.getChildren().add(new Label("Eliminar pedido: "));
 
         TextField numeroPedido = new TextField();
         numeroPedido.setPromptText("Número del pedido");
@@ -339,7 +339,7 @@ public class VistaFX extends Application {
 
     private void mostrarPedidosPendientes() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Pedidos Pendientes ---"));
+        areaContenido.getChildren().add(new Label("Pedidos pendientes: "));
 
         ArrayList<Pedido> pedidos = controlador.getPedidosPendientes();
         if (pedidos.isEmpty()) {
@@ -353,7 +353,7 @@ public class VistaFX extends Application {
 
     private void mostrarPedidosEnviados() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Pedidos Enviados ---"));
+        areaContenido.getChildren().add(new Label("Pedidos enviados: "));
 
         ArrayList<Pedido> pedidos = controlador.getPedidosEnviados();
         if (pedidos.isEmpty()) {
@@ -367,7 +367,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormPedidosPendientesPorCliente() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Pedidos Pendientes por Cliente ---"));
+        areaContenido.getChildren().add(new Label("Pedidos pendientes por cliente: "));
 
         TextField email = new TextField();
         email.setPromptText("Email del cliente");
@@ -391,7 +391,7 @@ public class VistaFX extends Application {
 
     private void mostrarFormPedidosEnviadosPorCliente() {
         areaContenido.getChildren().clear();
-        areaContenido.getChildren().add(new Label("--- Pedidos Enviados por Cliente ---"));
+        areaContenido.getChildren().add(new Label("Pedidos enviados por cliente: "));
 
         TextField email = new TextField();
         email.setPromptText("Email del cliente");
