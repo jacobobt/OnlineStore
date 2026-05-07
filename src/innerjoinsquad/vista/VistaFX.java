@@ -32,7 +32,12 @@ public class VistaFX extends Application {
         // Área central de contenido
         areaContenido = new VBox(10);
         areaContenido.setPadding(new Insets(20));
-        root.setCenter(areaContenido);
+
+        // Envuelvo el areaContenido en un panel de scroll para poder deslizar abajo, cuando hayan muchas cosas
+        ScrollPane scroll = new ScrollPane(areaContenido);
+        scroll.setFitToWidth(true);  // Para que el contenido ocupe el ancho disponible
+        scroll.setFitToHeight(false); // Permite crecer verticalmente y hacer scroll
+        root.setCenter(scroll);
 
         // Mensaje de bienvenida
         mostrarBienvenida();
