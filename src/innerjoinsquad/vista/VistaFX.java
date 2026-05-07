@@ -35,8 +35,10 @@ public class VistaFX extends Application {
 
         // Envuelvo el areaContenido en un panel de scroll para poder deslizar abajo, cuando hayan muchas cosas
         ScrollPane scroll = new ScrollPane(areaContenido);
-        scroll.setFitToWidth(true);  // Para que el contenido ocupe el ancho disponible
-        scroll.setFitToHeight(false); // Permite crecer verticalmente y hacer scroll
+        scroll.setFitToWidth(false); 
+        scroll.setFitToHeight(false);
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Scroll horizontal si hace falta
+        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Scroll vertical si hace falta
         root.setCenter(scroll);
 
         // Mensaje de bienvenida
