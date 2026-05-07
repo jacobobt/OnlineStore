@@ -36,6 +36,7 @@ public class VistaFX extends Application {
 
         // Envuelvo el areaContenido en un panel de scroll para poder deslizar abajo, cuando hayan muchas cosas
         ScrollPane scroll = new ScrollPane(areaContenido);
+        scroll.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         scroll.setFitToWidth(false);
         scroll.setFitToHeight(false);
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Scroll horizontal si hace falta
