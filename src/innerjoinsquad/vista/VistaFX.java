@@ -104,9 +104,8 @@ public class VistaFX extends Application {
                     getClass().getResourceAsStream("/recursos/OnlineStore.png")
             );
             javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(imagen);
-            imageView.setFitWidth(860);
-            imageView.setFitHeight(400);
             imageView.setPreserveRatio(true);
+            imageView.fitWidthProperty().bind(root.widthProperty().subtract(220)); // 220 = ancho del menú lateral
             areaContenido.getChildren().add(imageView);
         } catch (Exception e) {
             System.out.println("No se pudo cargar la imagen: " + e.getMessage());
