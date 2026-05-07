@@ -168,7 +168,13 @@ public class VistaFX extends Application {
             mostrarMensaje("No hay clientes registrados.");
         } else {
             for (Cliente c : clientes) {
-                areaContenido.getChildren().add(new Label(c.toString()));
+                String tipo = c.esPremium() ? "Premium" : "Estándar";
+                String texto = "Nombre: " + c.getNombreCliente() +
+                        " | Email: " + c.getEmailCliente() +
+                        " | NIF: " + c.getNifCliente() +
+                        " | Domicilio: " + c.getDomicilioCliente() +
+                        " | Tipo: " + tipo;
+                areaContenido.getChildren().add(new Label(texto));
                 areaContenido.getChildren().add(new Separator());
             }
         }
@@ -248,7 +254,12 @@ public class VistaFX extends Application {
             mostrarMensaje("No hay artículos registrados.");
         } else {
             for (Articulo a : articulos) {
-                areaContenido.getChildren().add(new Label(a.toString()));
+                String texto = "Código: " + a.getCodigoArticulo() +
+                        " | Descripción: " + a.getDescripcionArticulo() +
+                        " | Precio: " + a.getPrecioVenta() + "€" +
+                        " | Gastos envío: " + a.getGastosEnvio() + "€" +
+                        " | Preparación: " + a.getTiempoPreparacionMin() + " min";
+                areaContenido.getChildren().add(new Label(texto));
                 areaContenido.getChildren().add(new Separator());
             }
         }
@@ -332,7 +343,12 @@ public class VistaFX extends Application {
             mostrarMensaje("No hay pedidos registrados.");
         } else {
             for (Pedido p : pedidos) {
-                areaContenido.getChildren().add(new Label(p.toString()));
+                String texto = "Pedido #" + p.getNumeroPedido() +
+                        " | Cliente: " + p.getCliente().getEmailCliente() +
+                        " | Artículo: " + p.getArticulo().getCodigoArticulo() +
+                        " | Cantidad: " + p.getCantidad() +
+                        " | Total: " + p.calcularTotal() + "€";
+                areaContenido.getChildren().add(new Label(texto));
                 areaContenido.getChildren().add(new Separator());
             }
         }
@@ -377,7 +393,12 @@ public class VistaFX extends Application {
             mostrarMensaje("No hay pedidos pendientes.");
         } else {
             for (Pedido p : pedidos) {
-                areaContenido.getChildren().add(new Label(p.toString()));
+                String texto = "Pedido #" + p.getNumeroPedido() +
+                        " | Cliente: " + p.getCliente().getEmailCliente() +
+                        " | Artículo: " + p.getArticulo().getCodigoArticulo() +
+                        " | Cantidad: " + p.getCantidad() +
+                        " | Total: " + p.calcularTotal() + "€";
+                areaContenido.getChildren().add(new Label(texto));
                 areaContenido.getChildren().add(new Separator());
             }
         }
@@ -394,7 +415,12 @@ public class VistaFX extends Application {
             mostrarMensaje("No hay pedidos enviados.");
         } else {
             for (Pedido p : pedidos) {
-                areaContenido.getChildren().add(new Label(p.toString()));
+                String texto = "Pedido #" + p.getNumeroPedido() +
+                        " | Cliente: " + p.getCliente().getEmailCliente() +
+                        " | Artículo: " + p.getArticulo().getCodigoArticulo() +
+                        " | Cantidad: " + p.getCantidad() +
+                        " | Total: " + p.calcularTotal() + "€";
+                areaContenido.getChildren().add(new Label(texto));
                 areaContenido.getChildren().add(new Separator());
             }
         }
@@ -418,7 +444,12 @@ public class VistaFX extends Application {
                 resultados.getChildren().add(new Label("No hay pedidos pendientes para ese cliente."));
             } else {
                 for (Pedido p : pedidos) {
-                    resultados.getChildren().add(new Label(p.toString()));
+                    String texto = "Pedido #" + p.getNumeroPedido() +
+                            " | Cliente: " + p.getCliente().getEmailCliente() +
+                            " | Artículo: " + p.getArticulo().getCodigoArticulo() +
+                            " | Cantidad: " + p.getCantidad() +
+                            " | Total: " + p.calcularTotal() + "€";
+                    resultados.getChildren().add(new Label(texto));
                     resultados.getChildren().add(new Separator());
                 }
             }
@@ -445,7 +476,12 @@ public class VistaFX extends Application {
                 resultados.getChildren().add(new Label("No hay pedidos enviados para ese cliente."));
             } else {
                 for (Pedido p : pedidos) {
-                    resultados.getChildren().add(new Label(p.toString()));
+                    String texto = "Pedido #" + p.getNumeroPedido() +
+                            " | Cliente: " + p.getCliente().getEmailCliente() +
+                            " | Artículo: " + p.getArticulo().getCodigoArticulo() +
+                            " | Cantidad: " + p.getCantidad() +
+                            " | Total: " + p.calcularTotal() + "€";
+                    resultados.getChildren().add(new Label(texto));
                     resultados.getChildren().add(new Separator());
                 }
             }
