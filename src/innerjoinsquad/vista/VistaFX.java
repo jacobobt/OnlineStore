@@ -24,6 +24,7 @@ public class VistaFX extends Application {
     @Override
     public void start(Stage stage) {
         root = new BorderPane();
+        root.setStyle("-fx-font-family: 'Arial';");
 
         // Menú lateral izquierdo
         VBox menu = crearMenu();
@@ -168,6 +169,7 @@ public class VistaFX extends Application {
         } else {
             for (Cliente c : clientes) {
                 areaContenido.getChildren().add(new Label(c.toString()));
+                areaContenido.getChildren().add(new Separator());
             }
         }
     }
@@ -247,6 +249,7 @@ public class VistaFX extends Application {
         } else {
             for (Articulo a : articulos) {
                 areaContenido.getChildren().add(new Label(a.toString()));
+                areaContenido.getChildren().add(new Separator());
             }
         }
     }
@@ -330,6 +333,7 @@ public class VistaFX extends Application {
         } else {
             for (Pedido p : pedidos) {
                 areaContenido.getChildren().add(new Label(p.toString()));
+                areaContenido.getChildren().add(new Separator());
             }
         }
     }
@@ -374,6 +378,7 @@ public class VistaFX extends Application {
         } else {
             for (Pedido p : pedidos) {
                 areaContenido.getChildren().add(new Label(p.toString()));
+                areaContenido.getChildren().add(new Separator());
             }
         }
     }
@@ -390,6 +395,7 @@ public class VistaFX extends Application {
         } else {
             for (Pedido p : pedidos) {
                 areaContenido.getChildren().add(new Label(p.toString()));
+                areaContenido.getChildren().add(new Separator());
             }
         }
     }
@@ -413,6 +419,7 @@ public class VistaFX extends Application {
             } else {
                 for (Pedido p : pedidos) {
                     resultados.getChildren().add(new Label(p.toString()));
+                    resultados.getChildren().add(new Separator());
                 }
             }
         });
@@ -439,6 +446,7 @@ public class VistaFX extends Application {
             } else {
                 for (Pedido p : pedidos) {
                     resultados.getChildren().add(new Label(p.toString()));
+                    resultados.getChildren().add(new Separator());
                 }
             }
         });
