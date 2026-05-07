@@ -92,11 +92,20 @@ public class VistaFX extends Application {
     private void mostrarBienvenida() {
         areaContenido.getChildren().clear();
 
-        // Mensaje de bienvenida debajo de la imagen
-        Label label = new Label("Bienvenido a Online Store");
-        label.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-        VBox.setMargin(label, new Insets(10, 0, 0, 0));
-        areaContenido.getChildren().add(label);
+        // Mensaje de bienvenida arriba de la imagen
+        Label labelMensaje = new Label("Bienvenido al sistema de Online Store. Usa el menú lateral para administrar clientes, artículos y pedidos.");
+        labelMensaje.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        labelMensaje.setWrapText(true); // Para que el texto no se corte si la ventana es pequeña
+
+        String fechaHora = java.time.format.DateTimeFormatter
+                .ofPattern("EEEE, d 'de' MMMM 'de' yyyy — HH:mm:ss")
+                .withLocale(new java.util.Locale("es", "ES"))
+                .format(java.time.LocalDateTime.now());
+
+        Label labelFecha = new Label("" + fechaHora);
+        labelFecha.setStyle("-fx-font-size: 12px; -fx-text-fill: #60666c;");
+
+        areaContenido.getChildren().addAll(labelMensaje, labelFecha);
 
         // Carga de la imagen de bienvenida creada
         try {
