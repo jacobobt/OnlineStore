@@ -35,7 +35,7 @@ public class VistaFX extends Application {
 
         // Envuelvo el areaContenido en un panel de scroll para poder deslizar abajo, cuando hayan muchas cosas
         ScrollPane scroll = new ScrollPane(areaContenido);
-        scroll.setFitToWidth(false); 
+        scroll.setFitToWidth(false);
         scroll.setFitToHeight(false);
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Scroll horizontal si hace falta
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Scroll vertical si hace falta
@@ -53,11 +53,11 @@ public class VistaFX extends Application {
     private VBox crearMenu() {
         VBox menu = new VBox(5);
         menu.setPadding(new Insets(10));
-        menu.setStyle("-fx-background-color: #2c3e50;");
+        menu.setStyle("-fx-background-color: #1e2a35;");
         menu.setPrefWidth(200);
 
         Label titulo = new Label("MENÚ");
-        titulo.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+        titulo.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Arial';");
         menu.getChildren().add(titulo);
 
         // Botones del menú
@@ -83,7 +83,7 @@ public class VistaFX extends Application {
     private Button crearBotonMenu(String texto, Runnable accion) {
         Button boton = new Button(texto);
         boton.setMaxWidth(Double.MAX_VALUE);
-        boton.setStyle("-fx-background-color: #34495e; -fx-text-fill: white; -fx-alignment: center-left;");
+        boton.setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-alignment: center-left; -fx-font-family: 'Arial';");
         boton.setOnAction(e -> accion.run());
         return boton;
     }
