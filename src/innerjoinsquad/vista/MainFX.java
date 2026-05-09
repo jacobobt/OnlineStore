@@ -10,11 +10,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import innerjoinsquad.controlador.Controlador;
+import innerjoinsquad.modelo.Articulo;
+import innerjoinsquad.modelo.Cliente;
+import innerjoinsquad.modelo.Pedido;
 
 public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) {
+        Controlador controlador = new Controlador();
+
         Label titulo = new Label("OnlineStore");
         titulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
@@ -36,6 +42,51 @@ public class MainFX extends Application {
         areaResultado.setEditable(false);
         areaResultado.setWrapText(true);
         areaResultado.setPromptText("Aquí se mostrarán los resultados de las operaciones...");
+
+        btnMostrarClientes.setOnAction(e -> {
+            StringBuilder resultado = new StringBuilder();
+
+            if (controlador.getClientes().isEmpty()) {
+                resultado.append("No hay clientes registrados.");
+            } else {
+                resultado.append("----- LISTADO DE CLIENTES -----\n");
+                for (Cliente cliente : controlador.getClientes()) {
+                    resultado.append(cliente).append("\n");
+                }
+            }
+
+            areaResultado.setText(resultado.toString());
+        });
+
+        btnMostrarArticulos.setOnAction(e -> {
+            StringBuilder resultado = new StringBuilder();
+
+            if (controlador.getArticulos().isEmpty()) {
+                resultado.append("No hay artículos registrados.");
+            } else {
+                resultado.append("----- LISTADO DE ARTÍCULOS -----\n");
+                for (Articulo articulo : controlador.getArticulos()) {
+                    resultado.append(articulo).append("\n");
+                }
+            }
+
+            areaResultado.setText(resultado.toString());
+        });
+
+        btnMostrarPedidos.setOnAction(e -> {
+            StringBuilder resultado = new StringBuilder();
+
+            if (controlador.getPedidos().isEmpty()) {
+                resultado.append("No hay pedidos registrados.");
+            } else {
+                resultado.append("----- LISTADO DE PEDIDOS -----\n");
+                for (Pedido pedido : controlador.getPedidos()) {
+                    resultado.append(pedido).append("\n");
+                }
+            }
+
+            areaResultado.setText(resultado.toString());
+        });
 
         double anchoBoton = 180;
         btnMostrarClientes.setPrefWidth(anchoBoton);
