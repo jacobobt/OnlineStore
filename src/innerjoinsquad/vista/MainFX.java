@@ -21,6 +21,8 @@ import java.util.Optional;
 import javafx.scene.control.ChoiceDialog;
 import java.util.Arrays;
 import java.math.BigDecimal;
+import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
+import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 
 
 public class MainFX extends Application {
@@ -432,6 +434,33 @@ public class MainFX extends Application {
                 areaResultado.setText("Error: la cantidad debe ser un número entero.");
             } catch (RuntimeException ex) {
                 areaResultado.setText("Error al añadir el pedido:\n" + ex.getMessage());
+            }
+        });
+
+        btnEliminarPedido.setOnAction(e -> {
+            TextInputDialog dialogNumero = new TextInputDialog();
+            dialogNumero.setTitle("Eliminar pedido");
+            dialogNumero.setHeaderText("Eliminar pedido existente");
+            dialogNumero.setContentText("Introduce el número del pedido:");
+
+            Optional<String> resultadoNumero = dialogNumero.showAndWait();
+            if (resultadoNumero.isEmpty()) {
+                return;
+            }
+
+            try {
+                int numeroPedido = Integer.parseInt(resultadoNumero.get().trim());
+
+                controlador.eliminarPedido(numeroPedido);
+                areaResultado.setText("Pedido eliminado correctamente.");
+            } catch (NumberFormatException ex) {
+                areaResultado.setText("Error: el número del pedido debe ser un valor entero.");
+            } catch (PedidoYaEnviadoExcepcion ex) {
+                areaResultado.setText("No se puede eliminar el pedido porque ya ha sido enviado.");
+            } catch (PedidoNoEncontradoExcepcion ex) {
+                areaResultado.setText("Error: no existe un pedido con ese número.");
+            } catch (RuntimeException ex) {
+                areaResultado.setText("Error al eliminar el pedido:\n" + ex.getMessage());
             }
         });
 
