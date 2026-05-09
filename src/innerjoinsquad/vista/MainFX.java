@@ -14,6 +14,8 @@ import innerjoinsquad.controlador.Controlador;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Cliente;
 import innerjoinsquad.modelo.Pedido;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
 
 public class MainFX extends Application {
 
@@ -86,6 +88,86 @@ public class MainFX extends Application {
             }
 
             areaResultado.setText(resultado.toString());
+        });
+
+        btnPedidosPendientes.setOnAction(e -> {
+            StringBuilder resultado = new StringBuilder();
+
+            if (controlador.getPedidosPendientes().isEmpty()) {
+                resultado.append("No hay pedidos pendientes.");
+            } else {
+                resultado.append("----- PEDIDOS PENDIENTES -----\n");
+                for (Pedido pedido : controlador.getPedidosPendientes()) {
+                    resultado.append(pedido).append("\n");
+                }
+            }
+
+            areaResultado.setText(resultado.toString());
+        });
+
+        btnPedidosEnviados.setOnAction(e -> {
+            StringBuilder resultado = new StringBuilder();
+
+            if (controlador.getPedidosEnviados().isEmpty()) {
+                resultado.append("No hay pedidos enviados.");
+            } else {
+                resultado.append("----- PEDIDOS ENVIADOS -----\n");
+                for (Pedido pedido : controlador.getPedidosEnviados()) {
+                    resultado.append(pedido).append("\n");
+                }
+            }
+
+            areaResultado.setText(resultado.toString());
+        });
+
+        btnPendientesPorCliente.setOnAction(e -> {
+            TextInputDialog dialogo = new TextInputDialog();
+            dialogo.setTitle("Pedidos pendientes por cliente");
+            dialogo.setHeaderText("Consultar pedidos pendientes");
+            dialogo.setContentText("Introduce el email del cliente:");
+
+            Optional<String> resultadoDialogo = dialogo.showAndWait();
+
+            if (resultadoDialogo.isPresent()) {
+                String email = resultadoDialogo.get().trim();
+                StringBuilder resultado = new StringBuilder();
+
+                if (controlador.getPedidosPendientesPorCliente(email).isEmpty()) {
+                    resultado.append("No hay pedidos pendientes para ese cliente.");
+                } else {
+                    resultado.append("----- PEDIDOS PENDIENTES DEL CLIENTE -----\n");
+                    for (Pedido pedido : controlador.getPedidosPendientesPorCliente(email)) {
+                        resultado.append(pedido).append("\n");
+                    }
+                }
+
+                areaResultado.setText(resultado.toString());
+            }
+        });
+
+        btnEnviadosPorCliente.setOnAction(e -> {
+            TextInputDialog dialogo = new TextInputDialog();
+            dialogo.setTitle("Pedidos enviados por cliente");
+            dialogo.setHeaderText("Consultar pedidos enviados");
+            dialogo.setContentText("Introduce el email del cliente:");
+
+            Optional<String> resultadoDialogo = dialogo.showAndWait();
+
+            if (resultadoDialogo.isPresent()) {
+                String email = resultadoDialogo.get().trim();
+                StringBuilder resultado = new StringBuilder();
+
+                if (controlador.getPedidosEnviadosPorCliente(email).isEmpty()) {
+                    resultado.append("No hay pedidos enviados para ese cliente.");
+                } else {
+                    resultado.append("----- PEDIDOS ENVIADOS DEL CLIENTE -----\n");
+                    for (Pedido pedido : controlador.getPedidosEnviadosPorCliente(email)) {
+                        resultado.append(pedido).append("\n");
+                    }
+                }
+
+                areaResultado.setText(resultado.toString());
+            }
         });
 
         double anchoBoton = 180;
