@@ -13,9 +13,13 @@ import javafx.stage.Stage;
 import innerjoinsquad.controlador.Controlador;
 import innerjoinsquad.modelo.Articulo;
 import innerjoinsquad.modelo.Cliente;
+import innerjoinsquad.modelo.ClienteEstandar;
+import innerjoinsquad.modelo.ClientePremium;
 import innerjoinsquad.modelo.Pedido;
 import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
+import javafx.scene.control.ChoiceDialog;
+import java.util.Arrays;
 
 public class MainFX extends Application {
 
@@ -167,6 +171,76 @@ public class MainFX extends Application {
                 }
 
                 areaResultado.setText(resultado.toString());
+            }
+        });
+
+        btnAnadirCliente.setOnAction(e -> {
+            TextInputDialog dialogNombre = new TextInputDialog();
+            dialogNombre.setTitle("Añadir cliente");
+            dialogNombre.setHeaderText("Nuevo cliente");
+            dialogNombre.setContentText("Introduce el nombre:");
+
+            Optional<String> resultadoNombre = dialogNombre.showAndWait();
+            if (resultadoNombre.isEmpty()) {
+                return;
+            }
+            String nombre = resultadoNombre.get().trim();
+
+            TextInputDialog dialogDomicilio = new TextInputDialog();
+            dialogDomicilio.setTitle("Añadir cliente");
+            dialogDomicilio.setHeaderText("Nuevo cliente");
+            dialogDomicilio.setContentText("Introduce el domicilio:");
+
+            Optional<String> resultadoDomicilio = dialogDomicilio.showAndWait();
+            if (resultadoDomicilio.isEmpty()) {
+                return;
+            }
+            String domicilio = resultadoDomicilio.get().trim();
+
+            TextInputDialog dialogNif = new TextInputDialog();
+            dialogNif.setTitle("Añadir cliente");
+            dialogNif.setHeaderText("Nuevo cliente");
+            dialogNif.setContentText("Introduce el NIF:");
+
+            Optional<String> resultadoNif = dialogNif.showAndWait();
+            if (resultadoNif.isEmpty()) {
+                return;
+            }
+            String nif = resultadoNif.get().trim();
+
+            TextInputDialog dialogEmail = new TextInputDialog();
+            dialogEmail.setTitle("Añadir cliente");
+            dialogEmail.setHeaderText("Nuevo cliente");
+            dialogEmail.setContentText("Introduce el email:");
+
+            Optional<String> resultadoEmail = dialogEmail.showAndWait();
+            if (resultadoEmail.isEmpty()) {
+                return;
+            }
+            String email = resultadoEmail.get().trim();
+
+            ChoiceDialog<String> dialogTipo = new ChoiceDialog<>("ESTANDAR", Arrays.asList("ESTANDAR", "PREMIUM"));
+            dialogTipo.setTitle("Añadir cliente");
+            dialogTipo.setHeaderText("Tipo de cliente");
+            dialogTipo.setContentText("Selecciona el tipo:");
+
+            Optional<String> resultadoTipo = dialogTipo.showAndWait();
+            if (resultadoTipo.isEmpty()) {
+                return;
+            }
+
+            Cliente cliente;
+            if (resultadoTipo.get().equals("PREMIUM")) {
+                cliente = new ClientePremium(nombre, domicilio, nif, email);
+            } else {
+                cliente = new ClienteEstandar(nombre, domicilio, nif, email);
+            }
+
+            try {
+                controlador.anadirCliente(cliente);
+                areaResultado.setText("Cliente añadido correctamente:\n" + cliente);
+            } catch (RuntimeException ex) {
+                areaResultado.setText("Error al añadir el cliente:\n" + ex.getMessage());
             }
         });
 
