@@ -20,6 +20,8 @@ import javafx.scene.control.TextInputDialog;
 import java.util.Optional;
 import javafx.scene.control.ChoiceDialog;
 import java.util.Arrays;
+import java.math.BigDecimal;
+
 
 public class MainFX extends Application {
 
@@ -241,6 +243,81 @@ public class MainFX extends Application {
                 areaResultado.setText("Cliente añadido correctamente:\n" + cliente);
             } catch (RuntimeException ex) {
                 areaResultado.setText("Error al añadir el cliente:\n" + ex.getMessage());
+            }
+        });
+
+        btnAnadirArticulo.setOnAction(e -> {
+            TextInputDialog dialogCodigo = new TextInputDialog();
+            dialogCodigo.setTitle("Añadir artículo");
+            dialogCodigo.setHeaderText("Nuevo artículo");
+            dialogCodigo.setContentText("Introduce el código:");
+
+            Optional<String> resultadoCodigo = dialogCodigo.showAndWait();
+            if (resultadoCodigo.isEmpty()) {
+                return;
+            }
+            String codigo = resultadoCodigo.get().trim();
+
+            TextInputDialog dialogDescripcion = new TextInputDialog();
+            dialogDescripcion.setTitle("Añadir artículo");
+            dialogDescripcion.setHeaderText("Nuevo artículo");
+            dialogDescripcion.setContentText("Introduce la descripción:");
+
+            Optional<String> resultadoDescripcion = dialogDescripcion.showAndWait();
+            if (resultadoDescripcion.isEmpty()) {
+                return;
+            }
+            String descripcion = resultadoDescripcion.get().trim();
+
+            TextInputDialog dialogPrecio = new TextInputDialog();
+            dialogPrecio.setTitle("Añadir artículo");
+            dialogPrecio.setHeaderText("Nuevo artículo");
+            dialogPrecio.setContentText("Introduce el precio de venta:");
+
+            Optional<String> resultadoPrecio = dialogPrecio.showAndWait();
+            if (resultadoPrecio.isEmpty()) {
+                return;
+            }
+
+            TextInputDialog dialogGastos = new TextInputDialog();
+            dialogGastos.setTitle("Añadir artículo");
+            dialogGastos.setHeaderText("Nuevo artículo");
+            dialogGastos.setContentText("Introduce los gastos de envío:");
+
+            Optional<String> resultadoGastos = dialogGastos.showAndWait();
+            if (resultadoGastos.isEmpty()) {
+                return;
+            }
+
+            TextInputDialog dialogTiempo = new TextInputDialog();
+            dialogTiempo.setTitle("Añadir artículo");
+            dialogTiempo.setHeaderText("Nuevo artículo");
+            dialogTiempo.setContentText("Introduce el tiempo de preparación en minutos:");
+
+            Optional<String> resultadoTiempo = dialogTiempo.showAndWait();
+            if (resultadoTiempo.isEmpty()) {
+                return;
+            }
+
+            try {
+                BigDecimal precioVenta = new BigDecimal(resultadoPrecio.get().trim());
+                BigDecimal gastosEnvio = new BigDecimal(resultadoGastos.get().trim());
+                int tiempoPreparacionMin = Integer.parseInt(resultadoTiempo.get().trim());
+
+                Articulo articulo = new Articulo(
+                        codigo,
+                        descripcion,
+                        precioVenta,
+                        gastosEnvio,
+                        tiempoPreparacionMin
+                );
+
+                controlador.anadirArticulo(articulo);
+                areaResultado.setText("Artículo añadido correctamente:\n" + articulo);
+            } catch (NumberFormatException ex) {
+                areaResultado.setText("Error: precio, gastos de envío o tiempo de preparación no tienen un formato válido.");
+            } catch (RuntimeException ex) {
+                areaResultado.setText("Error al añadir el artículo:\n" + ex.getMessage());
             }
         });
 
