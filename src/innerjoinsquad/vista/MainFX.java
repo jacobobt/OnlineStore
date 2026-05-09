@@ -321,6 +321,120 @@ public class MainFX extends Application {
             }
         });
 
+        btnAnadirPedido.setOnAction(e -> {
+            TextInputDialog dialogEmail = new TextInputDialog();
+            dialogEmail.setTitle("Añadir pedido");
+            dialogEmail.setHeaderText("Nuevo pedido");
+            dialogEmail.setContentText("Introduce el email del cliente:");
+
+            Optional<String> resultadoEmail = dialogEmail.showAndWait();
+            if (resultadoEmail.isEmpty()) {
+                return;
+            }
+            String emailCliente = resultadoEmail.get().trim();
+
+            Cliente cliente = controlador.buscarClientePorEmail(emailCliente);
+
+            if (cliente == null) {
+                TextInputDialog dialogNombre = new TextInputDialog();
+                dialogNombre.setTitle("Nuevo cliente");
+                dialogNombre.setHeaderText("El cliente no existe");
+                dialogNombre.setContentText("Introduce el nombre del cliente:");
+
+                Optional<String> resultadoNombre = dialogNombre.showAndWait();
+                if (resultadoNombre.isEmpty()) {
+                    return;
+                }
+                String nombre = resultadoNombre.get().trim();
+
+                TextInputDialog dialogDomicilio = new TextInputDialog();
+                dialogDomicilio.setTitle("Nuevo cliente");
+                dialogDomicilio.setHeaderText("El cliente no existe");
+                dialogDomicilio.setContentText("Introduce el domicilio del cliente:");
+
+                Optional<String> resultadoDomicilio = dialogDomicilio.showAndWait();
+                if (resultadoDomicilio.isEmpty()) {
+                    return;
+                }
+                String domicilio = resultadoDomicilio.get().trim();
+
+                TextInputDialog dialogNif = new TextInputDialog();
+                dialogNif.setTitle("Nuevo cliente");
+                dialogNif.setHeaderText("El cliente no existe");
+                dialogNif.setContentText("Introduce el NIF del cliente:");
+
+                Optional<String> resultadoNif = dialogNif.showAndWait();
+                if (resultadoNif.isEmpty()) {
+                    return;
+                }
+                String nif = resultadoNif.get().trim();
+
+                ChoiceDialog<String> dialogTipo = new ChoiceDialog<>("ESTANDAR", Arrays.asList("ESTANDAR", "PREMIUM"));
+                dialogTipo.setTitle("Nuevo cliente");
+                dialogTipo.setHeaderText("Tipo de cliente");
+                dialogTipo.setContentText("Selecciona el tipo:");
+
+                Optional<String> resultadoTipo = dialogTipo.showAndWait();
+                if (resultadoTipo.isEmpty()) {
+                    return;
+                }
+
+                if (resultadoTipo.get().equals("PREMIUM")) {
+                    cliente = new ClientePremium(nombre, domicilio, nif, emailCliente);
+                } else {
+                    cliente = new ClienteEstandar(nombre, domicilio, nif, emailCliente);
+                }
+
+                controlador.anadirCliente(cliente);
+            }
+
+            TextInputDialog dialogCodigo = new TextInputDialog();
+            dialogCodigo.setTitle("Añadir pedido");
+            dialogCodigo.setHeaderText("Nuevo pedido");
+            dialogCodigo.setContentText("Introduce el código del artículo:");
+
+            Optional<String> resultadoCodigo = dialogCodigo.showAndWait();
+            if (resultadoCodigo.isEmpty()) {
+                return;
+            }
+            String codigoArticulo = resultadoCodigo.get().trim();
+
+            Articulo articulo = controlador.buscarArticuloPorCodigo(codigoArticulo);
+            if (articulo == null) {
+                areaResultado.setText("Error: el artículo no existe.");
+                return;
+            }
+
+            TextInputDialog dialogCantidad = new TextInputDialog();
+            dialogCantidad.setTitle("Añadir pedido");
+            dialogCantidad.setHeaderText("Nuevo pedido");
+            dialogCantidad.setContentText("Introduce la cantidad:");
+
+            Optional<String> resultadoCantidad = dialogCantidad.showAndWait();
+            if (resultadoCantidad.isEmpty()) {
+                return;
+            }
+
+            try {
+                int cantidad = Integer.parseInt(resultadoCantidad.get().trim());
+
+                Pedido pedido = new Pedido(
+                        0,
+                        cliente,
+                        articulo,
+                        cantidad,
+                        java.time.LocalDateTime.now()
+                );
+
+                controlador.anadirPedido(pedido);
+                areaResultado.setText("Pedido añadido correctamente:\n" + pedido);
+            } catch (NumberFormatException ex) {
+                areaResultado.setText("Error: la cantidad debe ser un número entero.");
+            } catch (RuntimeException ex) {
+                areaResultado.setText("Error al añadir el pedido:\n" + ex.getMessage());
+            }
+        });
+
         double anchoBoton = 180;
         btnMostrarClientes.setPrefWidth(anchoBoton);
         btnMostrarArticulos.setPrefWidth(anchoBoton);
