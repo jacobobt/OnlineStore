@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.math.BigDecimal;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
+import innerjoinsquad.modelo.excepciones.ClienteNoEncontradoExcepcion;
+
 
 
 public class MainFX extends Application {
@@ -461,6 +463,29 @@ public class MainFX extends Application {
                 areaResultado.setText("Error: no existe un pedido con ese número.");
             } catch (RuntimeException ex) {
                 areaResultado.setText("Error al eliminar el pedido:\n" + ex.getMessage());
+            }
+        });
+
+        btnEliminarCliente.setOnAction(e -> {
+            TextInputDialog dialogEmail = new TextInputDialog();
+            dialogEmail.setTitle("Eliminar cliente");
+            dialogEmail.setHeaderText("Eliminar cliente existente");
+            dialogEmail.setContentText("Introduce el email del cliente:");
+
+            Optional<String> resultadoEmail = dialogEmail.showAndWait();
+            if (resultadoEmail.isEmpty()) {
+                return;
+            }
+
+            String email = resultadoEmail.get().trim();
+
+            try {
+                controlador.eliminarCliente(email);
+                areaResultado.setText("Cliente eliminado correctamente.");
+            } catch (ClienteNoEncontradoExcepcion ex) {
+                areaResultado.setText("Error: no existe un cliente con ese email.");
+            } catch (RuntimeException ex) {
+                areaResultado.setText("Error: no se ha podido eliminar el cliente. Comprueba si tiene pedidos asociados.");
             }
         });
 
