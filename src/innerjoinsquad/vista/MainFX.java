@@ -24,8 +24,7 @@ import java.math.BigDecimal;
 import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
 import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
 import innerjoinsquad.modelo.excepciones.ClienteNoEncontradoExcepcion;
-
-
+import innerjoinsquad.modelo.excepciones.ArticuloNoEncontradoExcepcion;
 
 public class MainFX extends Application {
 
@@ -486,6 +485,29 @@ public class MainFX extends Application {
                 areaResultado.setText("Error: no existe un cliente con ese email.");
             } catch (RuntimeException ex) {
                 areaResultado.setText("Error: no se ha podido eliminar el cliente. Comprueba si tiene pedidos asociados.");
+            }
+        });
+
+        btnEliminarArticulo.setOnAction(e -> {
+            TextInputDialog dialogCodigo = new TextInputDialog();
+            dialogCodigo.setTitle("Eliminar artículo");
+            dialogCodigo.setHeaderText("Eliminar artículo existente");
+            dialogCodigo.setContentText("Introduce el código del artículo:");
+
+            Optional<String> resultadoCodigo = dialogCodigo.showAndWait();
+            if (resultadoCodigo.isEmpty()) {
+                return;
+            }
+
+            String codigo = resultadoCodigo.get().trim();
+
+            try {
+                controlador.eliminarArticulo(codigo);
+                areaResultado.setText("Artículo eliminado correctamente.");
+            } catch (ArticuloNoEncontradoExcepcion ex) {
+                areaResultado.setText("Error: no existe un artículo con ese código.");
+            } catch (RuntimeException ex) {
+                areaResultado.setText("Error: no se ha podido eliminar el artículo. Comprueba si tiene pedidos asociados.");
             }
         });
 
