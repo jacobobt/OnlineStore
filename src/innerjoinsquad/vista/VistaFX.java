@@ -55,7 +55,7 @@ public class VistaFX extends Application {
     private VBox crearMenu() {
         VBox menu = new VBox(5);
         menu.setPadding(new Insets(10));
-        menu.setStyle("-fx-background-color: #1e2a35;");
+        menu.setStyle("-fx-background-color: #051a22;");
         menu.setPrefWidth(200);
 
         Label titulo = new Label("MENÚ");
@@ -85,7 +85,13 @@ public class VistaFX extends Application {
     private Button crearBotonMenu(String texto, Runnable accion) {
         Button boton = new Button(texto);
         boton.setMaxWidth(Double.MAX_VALUE);
-        boton.setStyle("-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-alignment: center-left; -fx-font-family: 'Arial';");
+        boton.setStyle("-fx-background-color: #192833; -fx-text-fill: white; -fx-alignment: center-left; -fx-font-family: 'Arial';");
+        boton.setOnMouseEntered(e ->
+                boton.setStyle("-fx-background-color: #314859; -fx-text-fill: white; -fx-alignment: center-left; -fx-font-family: 'Arial';")
+        );
+        boton.setOnMouseExited(e ->
+                boton.setStyle("-fx-background-color: #192833; -fx-text-fill: white; -fx-alignment: center-left; -fx-font-family: 'Arial';")
+        );
         boton.setOnAction(e -> accion.run());
         return boton;
     }
