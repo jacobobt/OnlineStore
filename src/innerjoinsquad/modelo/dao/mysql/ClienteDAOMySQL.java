@@ -137,6 +137,19 @@ public class ClienteDAOMySQL implements ClienteDAO {
 
         return listaClientes;
     }
+
+    @Override
+    public void eliminarCliente(String email) throws SQLException {
+        String sql = "DELETE FROM clientes WHERE email_cliente = ?";
+
+        try (Connection conexion = ConexionBD.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.executeUpdate();
+        }
+    }
+
     public void insertarClienteConProcedimiento(Cliente cliente) throws SQLException {
 
         String sql = "{CALL insertar_cliente_proc(?, ?, ?, ?, ?)}";
