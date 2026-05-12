@@ -134,7 +134,7 @@ public class VistaFX extends Application {
         areaContenido.getChildren().add(label);
     }
 
-    // ===== CLIENTES =====
+    //  Clientes
 
     private void mostrarFormAnadirCliente() {
         areaContenido.getChildren().clear();
@@ -147,9 +147,10 @@ public class VistaFX extends Application {
         TextField domicilio = new TextField();
         domicilio.setPromptText("Domicilio");
         TextField nif = new TextField();
-        nif.setPromptText("NIF");
+        nif.setPromptText("DNI");
         TextField email = new TextField();
         email.setPromptText("Email");
+
 
         ComboBox<String> tipo = new ComboBox<>();
         tipo.getItems().addAll("Estándar", "Premium");
@@ -157,6 +158,11 @@ public class VistaFX extends Application {
 
         Button btnAnadir = new Button("Añadir cliente");
         Label resultado = new Label();
+
+        nombre.setOnAction(e -> btnAnadir.fire());
+        domicilio.setOnAction(e -> btnAnadir.fire());
+        nif.setOnAction(e -> btnAnadir.fire());
+        email.setOnAction(e -> btnAnadir.fire());
 
         btnAnadir.setOnAction(e -> {
             Cliente cliente;
@@ -186,7 +192,7 @@ public class VistaFX extends Application {
                 String tipo = c.esPremium() ? "Premium" : "Estándar";
                 String texto = "Nombre: " + c.getNombreCliente() +
                         " | Email: " + c.getEmailCliente() +
-                        " | NIF: " + c.getNifCliente() +
+                        " | DNI: " + c.getNifCliente() +
                         " | Domicilio: " + c.getDomicilioCliente() +
                         " | Tipo: " + tipo;
                 areaContenido.getChildren().add(new Label(texto));
@@ -205,6 +211,7 @@ public class VistaFX extends Application {
         email.setPromptText("Email del cliente");
         Button btnBorrar = new Button("Borrar cliente");
         Label resultado = new Label();
+        email.setOnAction(e -> btnBorrar.fire());
 
         btnBorrar.setOnAction(e -> {
             try {
@@ -220,7 +227,7 @@ public class VistaFX extends Application {
         areaContenido.getChildren().addAll(email, btnBorrar, resultado);
     }
 
-    // ===== ARTÍCULOS =====
+    // Artículos
 
     private void mostrarFormAnadirArticulo() {
         areaContenido.getChildren().clear();
@@ -230,17 +237,27 @@ public class VistaFX extends Application {
 
         TextField codigo = new TextField();
         codigo.setPromptText("Código");
+        codigo.setPrefWidth(220);
         TextField descripcion = new TextField();
         descripcion.setPromptText("Descripción");
+        descripcion.setPrefWidth(220);
         TextField precio = new TextField();
         precio.setPromptText("Precio de venta (usar punto decimal)");
+        precio.setPrefWidth(220);
         TextField gastos = new TextField();
         gastos.setPromptText("Gastos de envío (usar punto decimal)");
+        gastos.setPrefWidth(220);
         TextField tiempo = new TextField();
         tiempo.setPromptText("Tiempo de preparación (minutos)");
+        tiempo.setPrefWidth(220);
 
         Button btnAnadir = new Button("Añadir artículo");
         Label resultado = new Label();
+        codigo.setOnAction(e -> btnAnadir.fire());
+        descripcion.setOnAction(e -> btnAnadir.fire());
+        precio.setOnAction(e -> btnAnadir.fire());
+        gastos.setOnAction(e -> btnAnadir.fire());
+        tiempo.setOnAction(e -> btnAnadir.fire());
 
         btnAnadir.setOnAction(e -> {
             try {
@@ -251,7 +268,7 @@ public class VistaFX extends Application {
                 controlador.anadirArticulo(articulo);
                 resultado.setText("Artículo añadido correctamente.");
             } catch (NumberFormatException ex) {
-                resultado.setText("Error: verifica que los valores numéricos son correctos.");
+                resultado.setText("Error: verifica que los valores numéricos son correctos. Recuerda usar el punto y no la coma para separar los números.");
             }
         });
 
@@ -290,6 +307,8 @@ public class VistaFX extends Application {
         codigo.setPromptText("Código del artículo");
         Button btnBorrar = new Button("Borrar artículo");
         Label resultado = new Label();
+        codigo.setOnAction(e -> btnBorrar.fire());
+
 
         btnBorrar.setOnAction(e -> {
             try {
@@ -305,7 +324,7 @@ public class VistaFX extends Application {
         areaContenido.getChildren().addAll(codigo, btnBorrar, resultado);
     }
 
-    // ===== PEDIDOS =====
+    // Pedidos
 
     private void mostrarFormAnadirPedido() {
         areaContenido.getChildren().clear();
@@ -315,13 +334,19 @@ public class VistaFX extends Application {
 
         TextField emailCliente = new TextField();
         emailCliente.setPromptText("Email del cliente");
+        emailCliente.setPrefWidth(220);
         TextField codigoArticulo = new TextField();
         codigoArticulo.setPromptText("Código del artículo");
+        codigoArticulo.setPrefWidth(220);
         TextField cantidad = new TextField();
         cantidad.setPromptText("Cantidad");
+        cantidad.setPrefWidth(220);
 
         Button btnAnadir = new Button("Añadir pedido");
         Label resultado = new Label();
+        emailCliente.setOnAction(e -> btnAnadir.fire());
+        codigoArticulo.setOnAction(e -> btnAnadir.fire());
+        cantidad.setOnAction(e -> btnAnadir.fire());
 
         btnAnadir.setOnAction(e -> {
             Cliente cliente = controlador.buscarClientePorEmail(emailCliente.getText());
@@ -379,6 +404,7 @@ public class VistaFX extends Application {
         numeroPedido.setPromptText("Número del pedido");
         Button btnEliminar = new Button("Eliminar pedido");
         Label resultado = new Label();
+        numeroPedido.setOnAction(e -> btnEliminar.fire());
 
         btnEliminar.setOnAction(e -> {
             try {
@@ -451,6 +477,7 @@ public class VistaFX extends Application {
         email.setPromptText("Email del cliente");
         Button btnBuscar = new Button("Buscar");
         VBox resultados = new VBox(5);
+        email.setOnAction(e -> btnBuscar.fire());
 
         btnBuscar.setOnAction(e -> {
             resultados.getChildren().clear();
@@ -482,6 +509,7 @@ public class VistaFX extends Application {
         TextField email = new TextField();
         email.setPromptText("Email del cliente");
         Button btnBuscar = new Button("Buscar");
+        email.setOnAction(e -> btnBuscar.fire());
         VBox resultados = new VBox(5);
 
         btnBuscar.setOnAction(e -> {
