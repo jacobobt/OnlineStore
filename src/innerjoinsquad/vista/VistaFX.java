@@ -56,7 +56,7 @@ public class VistaFX extends Application {
         VBox menu = new VBox(5);
         menu.setPadding(new Insets(10));
         menu.setStyle("-fx-background-color: #051a22;");
-        menu.setPrefWidth(200);
+        menu.setPrefWidth(210);
 
         Label titulo = new Label("MENÚ");
         titulo.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: 'Arial';");
@@ -75,8 +75,8 @@ public class VistaFX extends Application {
         menu.getChildren().add(crearBotonMenu("9. Eliminar pedido", () -> mostrarFormEliminarPedido()));
         menu.getChildren().add(crearBotonMenu("10. Pedidos pendientes", () -> mostrarPedidosPendientes()));
         menu.getChildren().add(crearBotonMenu("11. Pedidos enviados", () -> mostrarPedidosEnviados()));
-        menu.getChildren().add(crearBotonMenu("12. Pendientes por cliente", () -> mostrarFormPedidosPendientesPorCliente()));
-        menu.getChildren().add(crearBotonMenu("13. Enviados por cliente", () -> mostrarFormPedidosEnviadosPorCliente()));
+        menu.getChildren().add(crearBotonMenu("12. Ped. Pendientes por cliente", () -> mostrarFormPedidosPendientesPorCliente()));
+        menu.getChildren().add(crearBotonMenu("13. Ped. Enviados por cliente", () -> mostrarFormPedidosEnviadosPorCliente()));
         menu.getChildren().add(crearBotonMenu("14. Salir", () -> System.exit(0)));
 
         return menu;
