@@ -17,7 +17,7 @@ public class JPAUtil {
             props.put("jakarta.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
             props.put("jakarta.persistence.jdbc.url", "jdbc:mysql://localhost:3306/online_store");
             props.put("jakarta.persistence.jdbc.user", "root");
-            props.put("jakarta.persistence.jdbc.password", ""); // cambia por tu contraseña
+            props.put("jakarta.persistence.jdbc.password", "Contrasenya1433."); // cambia por tu contraseña
             props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
             props.put("hibernate.hbm2ddl.auto", "validate");
             props.put("hibernate.show_sql", "true");
