@@ -1,337 +1,604 @@
 package innerjoinsquad.vista;
 
 import innerjoinsquad.controlador.Controlador;
-import innerjoinsquad.modelo.Cliente;
-import innerjoinsquad.modelo.ClienteEstandar;
-import innerjoinsquad.modelo.ClientePremium;
-import innerjoinsquad.modelo.Articulo;
-import innerjoinsquad.modelo.Pedido;
+import innerjoinsquad.modelo.*;
+import innerjoinsquad.modelo.excepciones.*;
+
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
-import innerjoinsquad.modelo.excepciones.ArticuloNoEncontradoExcepcion;
-import innerjoinsquad.modelo.excepciones.ClienteNoEncontradoExcepcion;
-import innerjoinsquad.modelo.excepciones.PedidoNoEncontradoExcepcion;
-import innerjoinsquad.modelo.excepciones.PedidoYaEnviadoExcepcion;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Vista {
 
-    private Controlador controlador;
-    private Scanner teclado;
+    private final Controlador controlador;
+    private final Stage stagePrincipal;
 
-    public Vista() {
+    public Vista(Stage stagePrincipal) {
         this.controlador = new Controlador();
-        this.teclado = new Scanner(System.in);
+        this.stagePrincipal = stagePrincipal;
     }
 
-    public Controlador getControlador() {
-        return controlador;
+    // ─────────────────────────────────────────────
+    //  VENTANA PRINCIPAL
+    // ─────────────────────────────────────────────
+
+    public void mostrarVentanaPrincipal() {
+        stagePrincipal.setTitle("Online Store - InnerJoinSquad");
+
+        // Tres botones de sección
+        Button btnClientes  = crearBotonMenu("👤 Clientes");
+        Button btnArticulos = crearBotonMenu("📦 Artículos");
+        Button btnPedidos   = crearBotonMenu("🛒 Pedidos");
+
+        btnClientes.setOnAction(e  -> mostrarVentanaClientes());
+        btnArticulos.setOnAction(e -> mostrarVentanaArticulos());
+        btnPedidos.setOnAction(e   -> mostrarVentanaPedidos());
+
+        VBox menu = new VBox(20, btnClientes, btnArticulos, btnPedidos);
+        menu.setAlignment(Pos.CENTER);
+        menu.setPadding(new Insets(40));
+
+        Label titulo = new Label("Online Store");
+        titulo.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
+
+        VBox root = new VBox(30, titulo, menu);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: #f0f4f8;");
+
+        stagePrincipal.setScene(new Scene(root, 420, 380));
+        stagePrincipal.show();
     }
 
-    public void mostrarMensajeInicio() {
-        System.out.println("Aplicacion Online Store iniciada correctamente.");
+    private Button crearBotonMenu(String texto) {
+        Button btn = new Button(texto);
+        btn.setPrefWidth(220);
+        btn.setPrefHeight(50);
+        btn.setStyle("-fx-font-size: 16px; -fx-background-color: #2563eb; " +
+                "-fx-text-fill: white; -fx-background-radius: 8;");
+        return btn;
     }
 
-    public void mostrarMenu() {
-        System.out.println("----- MENU -----");
-        System.out.println("1. Añadir cliente");
-        System.out.println("2. Mostrar clientes");
-        System.out.println("3. Borrar cliente");
-        System.out.println("4. Añadir articulo");
-        System.out.println("5. Mostrar articulos");
-        System.out.println("6. Borrar articulo");
-        System.out.println("7. Añadir pedido");
-        System.out.println("8. Mostrar pedidos");
-        System.out.println("9. Eliminar pedido");
-        System.out.println("10. Mostrar pedidos pendientes");
-        System.out.println("11. Mostrar pedidos enviados");
-        System.out.println("12. Mostrar pedidos pendientes por cliente");
-        System.out.println("13. Mostrar pedidos enviados por cliente");
-        System.out.println("0. Salir");
-    }
+    // ─────────────────────────────────────────────
+    //  VENTANA CLIENTES
+    // ─────────────────────────────────────────────
 
-    public int leerOpcion() {
-        System.out.print("Elige una opcion: ");
-        return teclado.nextInt();
-    }
+    private void mostrarVentanaClientes() {
+        Stage stage = new Stage();
+        stage.setTitle("Gestión de Clientes");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(stagePrincipal);
 
-    public void anadirClienteVista() {
-        teclado.nextLine();
+        // Tabla
+        TableView<Cliente> tabla = new TableView<>();
+        tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        System.out.print("Introduce el nombre del cliente: ");
-        String nombre = teclado.nextLine();
+        TableColumn<Cliente, String> colNombre    = new TableColumn<>("Nombre");
+        TableColumn<Cliente, String> colEmail     = new TableColumn<>("Email");
+        TableColumn<Cliente, String> colNif       = new TableColumn<>("NIF");
+        TableColumn<Cliente, String> colDomicilio = new TableColumn<>("Domicilio");
+        TableColumn<Cliente, String> colTipo      = new TableColumn<>("Tipo");
 
-        System.out.print("Introduce el domicilio del cliente: ");
-        String domicilio = teclado.nextLine();
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("emailCliente"));
+        colNif.setCellValueFactory(new PropertyValueFactory<>("nifCliente"));
+        colDomicilio.setCellValueFactory(new PropertyValueFactory<>("domicilioCliente"));
+        colTipo.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().esPremium() ? "Premium" : "Estándar"));
 
-        System.out.print("Introduce el NIF del cliente: ");
-        String nif = teclado.nextLine();
+        tabla.getColumns().addAll(colNombre, colEmail, colNif, colDomicilio, colTipo);
+        refrescarTablaClientes(tabla);
 
-        System.out.print("Introduce el email del cliente: ");
-        String email = teclado.nextLine();
+        // Botones
+        Button btnAnadir   = new Button("➕ Añadir cliente");
+        Button btnEliminar = new Button("🗑 Eliminar cliente");
+        Button btnRefrescar = new Button("🔄 Refrescar");
 
-        System.out.println("Tipo de cliente:");
-        System.out.println("1. Cliente estandar");
-        System.out.println("2. Cliente premium");
-        System.out.print("Elige una opcion: ");
-        int tipoCliente = teclado.nextInt();
+        btnAnadir.setOnAction(e -> {
+            mostrarDialogoAnadirCliente();
+            refrescarTablaClientes(tabla);
+        });
 
-        Cliente cliente;
-
-        if (tipoCliente == 1) {
-            cliente = new ClienteEstandar(nombre, domicilio, nif, email);
-        } else {
-            cliente = new ClientePremium(nombre, domicilio, nif, email);
-        }
-
-        controlador.anadirCliente(cliente);
-        System.out.println("Cliente anadido correctamente.");
-    }
-
-    public void mostrarClientesVista() {
-        if (controlador.getClientes().isEmpty()) {
-            System.out.println("No hay clientes registrados.");
-        } else {
-            System.out.println("----- LISTADO DE CLIENTES -----");
-            for (Cliente cliente : controlador.getClientes()) {
-                System.out.println(cliente);
+        btnEliminar.setOnAction(e -> {
+            Cliente seleccionado = tabla.getSelectionModel().getSelectedItem();
+            if (seleccionado == null) {
+                mostrarAlerta("Selecciona un cliente de la tabla.", Alert.AlertType.WARNING);
+                return;
             }
-        }
+            mostrarDialogoEliminarCliente(seleccionado.getEmailCliente());
+            refrescarTablaClientes(tabla);
+        });
+
+        btnRefrescar.setOnAction(e -> refrescarTablaClientes(tabla));
+
+        HBox botones = new HBox(10, btnAnadir, btnEliminar, btnRefrescar);
+        botones.setAlignment(Pos.CENTER_LEFT);
+        botones.setPadding(new Insets(10, 0, 0, 0));
+
+        VBox root = new VBox(10, tabla, botones);
+        root.setPadding(new Insets(20));
+        VBox.setVgrow(tabla, Priority.ALWAYS);
+
+        stage.setScene(new Scene(root, 750, 400));
+        stage.show();
     }
 
-    public void anadirArticuloVista() {
-        teclado.nextLine();
-        teclado.useLocale(java.util.Locale.US); // forzar punto como separador decimal
+    private void refrescarTablaClientes(TableView<Cliente> tabla) {
+        tabla.setItems(FXCollections.observableArrayList(controlador.getClientes()));
+    }
 
-        System.out.print("Introduce el codigo del articulo: ");
-        String codigo = teclado.nextLine();
+    private void mostrarDialogoAnadirCliente() {
+        Stage dialog = new Stage();
+        dialog.setTitle("Añadir Cliente");
+        dialog.initModality(Modality.APPLICATION_MODAL);
 
-        System.out.print("Introduce la descripcion del articulo: ");
-        String descripcion = teclado.nextLine();
+        TextField tfNombre    = new TextField(); tfNombre.setPromptText("Nombre");
+        TextField tfDomicilio = new TextField(); tfDomicilio.setPromptText("Domicilio");
+        TextField tfNif       = new TextField(); tfNif.setPromptText("NIF");
+        TextField tfEmail     = new TextField(); tfEmail.setPromptText("Email");
 
-        System.out.print("Introduce el precio de venta: ");
-        BigDecimal precioVenta;
-        while (true) {
-            String input = teclado.nextLine().trim();
-            if (input.contains(",")) {
-                System.out.print("Usa punto como separador decimal. Introduce el precio de venta: ");
-            } else {
+        ToggleGroup grupo = new ToggleGroup();
+        RadioButton rbEstandar = new RadioButton("Estándar"); rbEstandar.setToggleGroup(grupo); rbEstandar.setSelected(true);
+        RadioButton rbPremium  = new RadioButton("Premium");  rbPremium.setToggleGroup(grupo);
+        HBox tipoBox = new HBox(15, new Label("Tipo:"), rbEstandar, rbPremium);
+        tipoBox.setAlignment(Pos.CENTER_LEFT);
+
+        Button btnGuardar  = new Button("Guardar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnCancelar.setOnAction(e -> dialog.close());
+        btnGuardar.setOnAction(e -> {
+            String nombre    = tfNombre.getText().trim();
+            String domicilio = tfDomicilio.getText().trim();
+            String nif       = tfNif.getText().trim();
+            String email     = tfEmail.getText().trim();
+
+            if (nombre.isEmpty() || domicilio.isEmpty() || nif.isEmpty() || email.isEmpty()) {
+                mostrarAlerta("Rellena todos los campos.", Alert.AlertType.WARNING);
+                return;
+            }
+
+            Cliente cliente = rbPremium.isSelected()
+                    ? new ClientePremium(nombre, domicilio, nif, email)
+                    : new ClienteEstandar(nombre, domicilio, nif, email);
+
+            try {
+                controlador.anadirCliente(cliente);
+                mostrarAlerta("Cliente añadido correctamente.", Alert.AlertType.INFORMATION);
+                dialog.close();
+            } catch (Exception ex) {
+                mostrarAlerta("Error al añadir cliente: " + ex.getMessage(), Alert.AlertType.ERROR);
+            }
+        });
+
+        HBox botonesDialog = new HBox(10, btnGuardar, btnCancelar);
+        botonesDialog.setAlignment(Pos.CENTER_RIGHT);
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10); grid.setHgap(10); grid.setPadding(new Insets(20));
+        grid.addRow(0, new Label("Nombre:"),    tfNombre);
+        grid.addRow(1, new Label("Domicilio:"), tfDomicilio);
+        grid.addRow(2, new Label("NIF:"),       tfNif);
+        grid.addRow(3, new Label("Email:"),     tfEmail);
+        grid.addRow(4, tipoBox);
+        grid.add(botonesDialog, 0, 5, 2, 1);
+
+        dialog.setScene(new Scene(grid, 380, 280));
+        dialog.showAndWait();
+    }
+
+    private void mostrarDialogoEliminarCliente(String email) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "¿Eliminar el cliente con email: " + email + "?",
+                ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.showAndWait().ifPresent(resp -> {
+            if (resp == ButtonType.YES) {
                 try {
-                    precioVenta = new BigDecimal(input);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.print("Valor no válido. Introduce el precio de venta: ");
+                    controlador.eliminarCliente(email);
+                    mostrarAlerta("Cliente eliminado correctamente.", Alert.AlertType.INFORMATION);
+                } catch (ClienteNoEncontradoExcepcion ex) {
+                    mostrarAlerta("Error: cliente no encontrado.", Alert.AlertType.ERROR);
+                } catch (RuntimeException ex) {
+                    mostrarAlerta("No se puede eliminar: el cliente tiene pedidos asociados.", Alert.AlertType.ERROR);
                 }
             }
-        }
+        });
+    }
 
-        System.out.print("Introduce los gastos de envio: ");
-        BigDecimal gastosEnvio;
-        while (true) {
-            String input = teclado.nextLine().trim();
-            if (input.contains(",")) {
-                System.out.print("Usa punto como separador decimal. Introduce los gastos de envio: ");
-            } else {
+    // ─────────────────────────────────────────────
+    //  VENTANA ARTÍCULOS
+    // ─────────────────────────────────────────────
+
+    private void mostrarVentanaArticulos() {
+        Stage stage = new Stage();
+        stage.setTitle("Gestión de Artículos");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(stagePrincipal);
+
+        TableView<Articulo> tabla = new TableView<>();
+        tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableColumn<Articulo, String>     colCodigo      = new TableColumn<>("Código");
+        TableColumn<Articulo, String>     colDescripcion = new TableColumn<>("Descripción");
+        TableColumn<Articulo, BigDecimal> colPrecio      = new TableColumn<>("Precio (€)");
+        TableColumn<Articulo, BigDecimal> colEnvio       = new TableColumn<>("Gastos envío (€)");
+        TableColumn<Articulo, Integer>    colTiempo      = new TableColumn<>("Preparación (min)");
+
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoArticulo"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcionArticulo"));
+        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
+        colEnvio.setCellValueFactory(new PropertyValueFactory<>("gastosEnvio"));
+        colTiempo.setCellValueFactory(new PropertyValueFactory<>("tiempoPreparacionMin"));
+
+        tabla.getColumns().addAll(colCodigo, colDescripcion, colPrecio, colEnvio, colTiempo);
+        refrescarTablaArticulos(tabla);
+
+        Button btnAnadir    = new Button("➕ Añadir artículo");
+        Button btnEliminar  = new Button("🗑 Eliminar artículo");
+        Button btnRefrescar = new Button("🔄 Refrescar");
+
+        btnAnadir.setOnAction(e -> {
+            mostrarDialogoAnadirArticulo();
+            refrescarTablaArticulos(tabla);
+        });
+
+        btnEliminar.setOnAction(e -> {
+            Articulo seleccionado = tabla.getSelectionModel().getSelectedItem();
+            if (seleccionado == null) {
+                mostrarAlerta("Selecciona un artículo de la tabla.", Alert.AlertType.WARNING);
+                return;
+            }
+            mostrarDialogoEliminarArticulo(seleccionado.getCodigoArticulo());
+            refrescarTablaArticulos(tabla);
+        });
+
+        btnRefrescar.setOnAction(e -> refrescarTablaArticulos(tabla));
+
+        HBox botones = new HBox(10, btnAnadir, btnEliminar, btnRefrescar);
+        botones.setAlignment(Pos.CENTER_LEFT);
+        botones.setPadding(new Insets(10, 0, 0, 0));
+
+        VBox root = new VBox(10, tabla, botones);
+        root.setPadding(new Insets(20));
+        VBox.setVgrow(tabla, Priority.ALWAYS);
+
+        stage.setScene(new Scene(root, 750, 400));
+        stage.show();
+    }
+
+    private void refrescarTablaArticulos(TableView<Articulo> tabla) {
+        tabla.setItems(FXCollections.observableArrayList(controlador.getArticulos()));
+    }
+
+    private void mostrarDialogoAnadirArticulo() {
+        Stage dialog = new Stage();
+        dialog.setTitle("Añadir Artículo");
+        dialog.initModality(Modality.APPLICATION_MODAL);
+
+        TextField tfCodigo      = new TextField(); tfCodigo.setPromptText("Código");
+        TextField tfDescripcion = new TextField(); tfDescripcion.setPromptText("Descripción");
+        TextField tfPrecio      = new TextField(); tfPrecio.setPromptText("Precio (ej: 9.99)");
+        TextField tfEnvio       = new TextField(); tfEnvio.setPromptText("Gastos envío (ej: 2.50)");
+        TextField tfTiempo      = new TextField(); tfTiempo.setPromptText("Minutos preparación");
+
+        Button btnGuardar  = new Button("Guardar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnCancelar.setOnAction(e -> dialog.close());
+        btnGuardar.setOnAction(e -> {
+            try {
+                String codigo      = tfCodigo.getText().trim();
+                String descripcion = tfDescripcion.getText().trim();
+                BigDecimal precio  = new BigDecimal(tfPrecio.getText().trim().replace(",", "."));
+                BigDecimal envio   = new BigDecimal(tfEnvio.getText().trim().replace(",", "."));
+                int tiempo         = Integer.parseInt(tfTiempo.getText().trim());
+
+                if (codigo.isEmpty() || descripcion.isEmpty()) {
+                    mostrarAlerta("Rellena todos los campos.", Alert.AlertType.WARNING);
+                    return;
+                }
+
+                Articulo articulo = new Articulo(codigo, descripcion, precio, envio, tiempo);
+                controlador.anadirArticulo(articulo);
+                mostrarAlerta("Artículo añadido correctamente.", Alert.AlertType.INFORMATION);
+                dialog.close();
+            } catch (NumberFormatException ex) {
+                mostrarAlerta("Precio, gastos y tiempo deben ser numéricos.", Alert.AlertType.ERROR);
+            } catch (Exception ex) {
+                mostrarAlerta("Error al añadir artículo: " + ex.getMessage(), Alert.AlertType.ERROR);
+            }
+        });
+
+        HBox botonesDialog = new HBox(10, btnGuardar, btnCancelar);
+        botonesDialog.setAlignment(Pos.CENTER_RIGHT);
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10); grid.setHgap(10); grid.setPadding(new Insets(20));
+        grid.addRow(0, new Label("Código:"),       tfCodigo);
+        grid.addRow(1, new Label("Descripción:"),  tfDescripcion);
+        grid.addRow(2, new Label("Precio (€):"),   tfPrecio);
+        grid.addRow(3, new Label("Gastos envío:"), tfEnvio);
+        grid.addRow(4, new Label("Prep. (min):"),  tfTiempo);
+        grid.add(botonesDialog, 0, 5, 2, 1);
+
+        dialog.setScene(new Scene(grid, 380, 280));
+        dialog.showAndWait();
+    }
+
+    private void mostrarDialogoEliminarArticulo(String codigo) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "¿Eliminar el artículo con código: " + codigo + "?",
+                ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.showAndWait().ifPresent(resp -> {
+            if (resp == ButtonType.YES) {
                 try {
-                    gastosEnvio = new BigDecimal(input);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.print("Valor no válido. Introduce los gastos de envio: ");
+                    controlador.eliminarArticulo(codigo);
+                    mostrarAlerta("Artículo eliminado correctamente.", Alert.AlertType.INFORMATION);
+                } catch (ArticuloNoEncontradoExcepcion ex) {
+                    mostrarAlerta("Error: artículo no encontrado.", Alert.AlertType.ERROR);
+                } catch (RuntimeException ex) {
+                    mostrarAlerta("No se puede eliminar: el artículo tiene pedidos asociados.", Alert.AlertType.ERROR);
                 }
             }
-        }
-
-        System.out.print("Introduce el tiempo de preparacion en minutos: ");
-        int tiempoPreparacionMin = teclado.nextInt();
-
-        Articulo articulo = new Articulo(codigo, descripcion, precioVenta, gastosEnvio, tiempoPreparacionMin);
-
-        controlador.anadirArticulo(articulo);
-        System.out.println("Articulo anadido correctamente.");
+        });
     }
 
-    public void mostrarArticulosVista() {
-        if (controlador.getArticulos().isEmpty()) {
-            System.out.println("No hay articulos registrados.");
+    // ─────────────────────────────────────────────
+    //  VENTANA PEDIDOS
+    // ─────────────────────────────────────────────
+
+    private void mostrarVentanaPedidos() {
+        Stage stage = new Stage();
+        stage.setTitle("Gestión de Pedidos");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(stagePrincipal);
+
+        TableView<Pedido> tabla = new TableView<>();
+        tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableColumn<Pedido, Integer> colNum      = new TableColumn<>("Nº Pedido");
+        TableColumn<Pedido, String>  colCliente  = new TableColumn<>("Cliente");
+        TableColumn<Pedido, String>  colArticulo = new TableColumn<>("Artículo");
+        TableColumn<Pedido, Integer> colCantidad = new TableColumn<>("Cantidad");
+        TableColumn<Pedido, String>  colFecha    = new TableColumn<>("Fecha/Hora");
+        TableColumn<Pedido, String>  colEstado   = new TableColumn<>("Estado");
+        TableColumn<Pedido, String>  colTotal    = new TableColumn<>("Total (€)");
+
+        colNum.setCellValueFactory(new PropertyValueFactory<>("numeroPedido"));
+        colCliente.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getCliente() != null
+                                ? data.getValue().getCliente().getEmailCliente() : ""));
+        colArticulo.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getArticulo() != null
+                                ? data.getValue().getArticulo().getDescripcionArticulo() : ""));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colFecha.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getFechaHora() != null
+                                ? data.getValue().getFechaHora().toString().replace("T", " ") : ""));
+        colEstado.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().estaEnviado() ? "✅ Enviado" : "⏳ Pendiente"));
+        colTotal.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().calcularTotal().toPlainString() + " €"));
+
+        tabla.getColumns().addAll(colNum, colCliente, colArticulo, colCantidad, colFecha, colEstado, colTotal);
+
+        // Filtros
+        ToggleGroup filtroGrupo = new ToggleGroup();
+        RadioButton rbTodos     = new RadioButton("Todos");     rbTodos.setToggleGroup(filtroGrupo);     rbTodos.setSelected(true);
+        RadioButton rbPendientes = new RadioButton("Pendientes"); rbPendientes.setToggleGroup(filtroGrupo);
+        RadioButton rbEnviados  = new RadioButton("Enviados");  rbEnviados.setToggleGroup(filtroGrupo);
+
+        TextField tfEmailFiltro = new TextField(); tfEmailFiltro.setPromptText("Email cliente (opcional)");
+        tfEmailFiltro.setPrefWidth(220);
+
+        Button btnFiltrar = new Button("🔍 Filtrar");
+        btnFiltrar.setOnAction(e -> aplicarFiltro(tabla, rbTodos, rbPendientes, rbEnviados, tfEmailFiltro.getText().trim()));
+
+        HBox filtros = new HBox(10, rbTodos, rbPendientes, rbEnviados,
+                new Label("  Por cliente:"), tfEmailFiltro, btnFiltrar);
+        filtros.setAlignment(Pos.CENTER_LEFT);
+        filtros.setPadding(new Insets(5, 0, 5, 0));
+
+        // Botones acción
+        Button btnAnadir    = new Button("➕ Añadir pedido");
+        Button btnEliminar  = new Button("🗑 Eliminar pedido");
+        Button btnRefrescar = new Button("🔄 Refrescar");
+
+        btnAnadir.setOnAction(e -> {
+            mostrarDialogoAnadirPedido();
+            aplicarFiltro(tabla, rbTodos, rbPendientes, rbEnviados, tfEmailFiltro.getText().trim());
+        });
+
+        btnEliminar.setOnAction(e -> {
+            Pedido seleccionado = tabla.getSelectionModel().getSelectedItem();
+            if (seleccionado == null) {
+                mostrarAlerta("Selecciona un pedido de la tabla.", Alert.AlertType.WARNING);
+                return;
+            }
+            mostrarDialogoEliminarPedido(seleccionado.getNumeroPedido());
+            aplicarFiltro(tabla, rbTodos, rbPendientes, rbEnviados, tfEmailFiltro.getText().trim());
+        });
+
+        btnRefrescar.setOnAction(e ->
+                aplicarFiltro(tabla, rbTodos, rbPendientes, rbEnviados, tfEmailFiltro.getText().trim()));
+
+        HBox botones = new HBox(10, btnAnadir, btnEliminar, btnRefrescar);
+        botones.setAlignment(Pos.CENTER_LEFT);
+        botones.setPadding(new Insets(10, 0, 0, 0));
+
+        // Cargar datos iniciales
+        tabla.setItems(FXCollections.observableArrayList(controlador.getPedidos()));
+
+        VBox root = new VBox(10, filtros, tabla, botones);
+        root.setPadding(new Insets(20));
+        VBox.setVgrow(tabla, Priority.ALWAYS);
+
+        stage.setScene(new Scene(root, 900, 480));
+        stage.show();
+    }
+
+    private void aplicarFiltro(TableView<Pedido> tabla,
+                               RadioButton rbTodos,
+                               RadioButton rbPendientes,
+                               RadioButton rbEnviados,
+                               String email) {
+        ArrayList<Pedido> resultado;
+
+        boolean tieneEmail = !email.isEmpty();
+
+        if (rbPendientes.isSelected()) {
+            resultado = tieneEmail
+                    ? controlador.getPedidosPendientesPorCliente(email)
+                    : controlador.getPedidosPendientes();
+        } else if (rbEnviados.isSelected()) {
+            resultado = tieneEmail
+                    ? controlador.getPedidosEnviadosPorCliente(email)
+                    : controlador.getPedidosEnviados();
         } else {
-            System.out.println("----- LISTADO DE ARTICULOS -----");
-            for (Articulo articulo : controlador.getArticulos()) {
-                System.out.println(articulo);
+            resultado = tieneEmail
+                    ? filtrarPedidosPorCliente(controlador.getPedidos(), email)
+                    : controlador.getPedidos();
+        }
+
+        tabla.setItems(FXCollections.observableArrayList(resultado));
+    }
+
+    private ArrayList<Pedido> filtrarPedidosPorCliente(ArrayList<Pedido> pedidos, String email) {
+        ArrayList<Pedido> resultado = new ArrayList<>();
+        for (Pedido p : pedidos) {
+            if (p.getCliente() != null && p.getCliente().getEmailCliente().equalsIgnoreCase(email)) {
+                resultado.add(p);
             }
         }
+        return resultado;
     }
 
-    public void anadirPedidoVista() {
-        teclado.nextLine();
+    private void mostrarDialogoAnadirPedido() {
+        Stage dialog = new Stage();
+        dialog.setTitle("Añadir Pedido");
+        dialog.initModality(Modality.APPLICATION_MODAL);
 
-        System.out.print("Introduce el email del cliente: ");
-        String emailCliente = teclado.nextLine();
+        // ComboBoxes con los datos existentes
+        ComboBox<Cliente>  cbCliente  = new ComboBox<>(FXCollections.observableArrayList(controlador.getClientes()));
+        ComboBox<Articulo> cbArticulo = new ComboBox<>(FXCollections.observableArrayList(controlador.getArticulos()));
 
-        Cliente cliente = controlador.buscarClientePorEmail(emailCliente);
+        // Mostrar email en el combo de clientes
+        cbCliente.setCellFactory(lv -> new ListCell<>() {
+            @Override protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                setText(empty || c == null ? null : c.getEmailCliente() + " (" + c.getNombreCliente() + ")");
+            }
+        });
+        cbCliente.setButtonCell(new ListCell<>() {
+            @Override protected void updateItem(Cliente c, boolean empty) {
+                super.updateItem(c, empty);
+                setText(empty || c == null ? null : c.getEmailCliente() + " (" + c.getNombreCliente() + ")");
+            }
+        });
 
-        if (cliente == null) {
-            System.out.println("El cliente no existe. Se procederá a darlo de alta.");
+        // Mostrar descripción en el combo de artículos
+        cbArticulo.setCellFactory(lv -> new ListCell<>() {
+            @Override protected void updateItem(Articulo a, boolean empty) {
+                super.updateItem(a, empty);
+                setText(empty || a == null ? null : a.getCodigoArticulo() + " - " + a.getDescripcionArticulo());
+            }
+        });
+        cbArticulo.setButtonCell(new ListCell<>() {
+            @Override protected void updateItem(Articulo a, boolean empty) {
+                super.updateItem(a, empty);
+                setText(empty || a == null ? null : a.getCodigoArticulo() + " - " + a.getDescripcionArticulo());
+            }
+        });
 
-            System.out.print("Introduce el nombre del cliente: ");
-            String nombre = teclado.nextLine();
+        cbCliente.setPrefWidth(300);
+        cbArticulo.setPrefWidth(300);
 
-            System.out.print("Introduce el domicilio del cliente: ");
-            String domicilio = teclado.nextLine();
+        TextField tfCantidad = new TextField(); tfCantidad.setPromptText("Cantidad");
 
-            System.out.print("Introduce el NIF del cliente: ");
-            String nif = teclado.nextLine();
+        Button btnGuardar  = new Button("Guardar");
+        Button btnCancelar = new Button("Cancelar");
 
-            System.out.println("Tipo de cliente:");
-            System.out.println("1. Cliente estandar");
-            System.out.println("2. Cliente premium");
-            System.out.print("Elige una opción: ");
-            int tipoCliente = teclado.nextInt();
-            teclado.nextLine();
+        btnCancelar.setOnAction(e -> dialog.close());
+        btnGuardar.setOnAction(e -> {
+            Cliente  cliente  = cbCliente.getValue();
+            Articulo articulo = cbArticulo.getValue();
 
-            if (tipoCliente == 1) {
-                cliente = new ClienteEstandar(nombre, domicilio, nif, emailCliente);
-            } else {
-                cliente = new ClientePremium(nombre, domicilio, nif, emailCliente);
+            if (cliente == null || articulo == null) {
+                mostrarAlerta("Selecciona un cliente y un artículo.", Alert.AlertType.WARNING);
+                return;
             }
 
-            controlador.anadirCliente(cliente);
-            System.out.println("Cliente anadido correctamente.");
-        }
+            try {
+                int cantidad = Integer.parseInt(tfCantidad.getText().trim());
+                if (cantidad <= 0) {
+                    mostrarAlerta("La cantidad debe ser mayor que 0.", Alert.AlertType.WARNING);
+                    return;
+                }
 
-        System.out.print("Introduce el codigo del articulo: ");
-        String codigoArticulo = teclado.nextLine();
-
-        Articulo articulo = controlador.buscarArticuloPorCodigo(codigoArticulo);
-
-        if (articulo == null) {
-            System.out.println("Error: el articulo no existe.");
-            return;
-        }
-
-        System.out.print("Introduce la cantidad: ");
-        int cantidad = teclado.nextInt();
-
-        Pedido pedido = new Pedido(
-                0,
-                cliente,
-                articulo,
-                cantidad,
-                java.time.LocalDateTime.now()
-        );
-
-        controlador.anadirPedido(pedido);
-        System.out.println("Pedido anadido correctamente.");
-    }
-
-    public void mostrarPedidosVista() {
-        if (controlador.getPedidos().isEmpty()) {
-            System.out.println("No hay pedidos registrados.");
-        } else {
-            System.out.println("----- LISTADO DE PEDIDOS -----");
-            for (Pedido pedido : controlador.getPedidos()) {
-                System.out.println(pedido);
+                Pedido pedido = new Pedido(0, cliente, articulo, cantidad, LocalDateTime.now());
+                controlador.anadirPedido(pedido);
+                mostrarAlerta("Pedido añadido correctamente.", Alert.AlertType.INFORMATION);
+                dialog.close();
+            } catch (NumberFormatException ex) {
+                mostrarAlerta("La cantidad debe ser un número entero.", Alert.AlertType.ERROR);
+            } catch (Exception ex) {
+                mostrarAlerta("Error al añadir pedido: " + ex.getMessage(), Alert.AlertType.ERROR);
             }
-        }
+        });
+
+        HBox botonesDialog = new HBox(10, btnGuardar, btnCancelar);
+        botonesDialog.setAlignment(Pos.CENTER_RIGHT);
+
+        GridPane grid = new GridPane();
+        grid.setVgap(10); grid.setHgap(10); grid.setPadding(new Insets(20));
+        grid.addRow(0, new Label("Cliente:"),  cbCliente);
+        grid.addRow(1, new Label("Artículo:"), cbArticulo);
+        grid.addRow(2, new Label("Cantidad:"), tfCantidad);
+        grid.add(botonesDialog, 0, 3, 2, 1);
+
+        dialog.setScene(new Scene(grid, 430, 200));
+        dialog.showAndWait();
     }
 
-    public void eliminarPedidoVista() {
-        System.out.print("Introduce el numero del pedido que quieres eliminar: ");
-        int numeroPedido = teclado.nextInt();
-
-        try {
-            controlador.eliminarPedido(numeroPedido);
-            System.out.println("Pedido eliminado correctamente.");
-        } catch (PedidoYaEnviadoExcepcion e) {
-            System.out.println("No se puede eliminar el pedido porque ya ha sido enviado.");
-        } catch (PedidoNoEncontradoExcepcion e) {
-            System.out.println("Error: no existe un pedido con ese numero.");
-        }
-    }
-
-    public void eliminarClienteVista() {
-        teclado.nextLine();
-
-        System.out.print("Introduce el email del cliente que quieres borrar: ");
-        String email = teclado.nextLine();
-
-        try {
-            controlador.eliminarCliente(email);
-            System.out.println("Cliente borrado correctamente.");
-        } catch (ClienteNoEncontradoExcepcion e) {
-            System.out.println("Error: no existe un cliente con ese email.");
-        } catch (RuntimeException e) {
-            System.out.println("Error: no se ha podido borrar el cliente. Comprueba si tiene pedidos asociados.");
-        }
-    }
-
-    public void eliminarArticuloVista() {
-        teclado.nextLine();
-
-        System.out.print("Introduce el codigo del articulo que quieres borrar: ");
-        String codigo = teclado.nextLine();
-
-        try {
-            controlador.eliminarArticulo(codigo);
-            System.out.println("Articulo borrado correctamente.");
-        } catch (ArticuloNoEncontradoExcepcion e) {
-            System.out.println("Error: no existe un articulo con ese codigo.");
-        } catch (RuntimeException e) {
-            System.out.println("Error: no se ha podido borrar el articulo. Comprueba si tiene pedidos asociados.");
-        }
-    }
-
-    public void mostrarPedidosPendientesVista() {
-        if (controlador.getPedidosPendientes().isEmpty()) {
-            System.out.println("No hay pedidos pendientes.");
-        } else {
-            System.out.println("----- PEDIDOS PENDIENTES -----");
-            for (Pedido pedido : controlador.getPedidosPendientes()) {
-                System.out.println(pedido);
+    private void mostrarDialogoEliminarPedido(int numeroPedido) {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "¿Eliminar el pedido nº " + numeroPedido + "?",
+                ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Confirmar eliminación");
+        confirm.showAndWait().ifPresent(resp -> {
+            if (resp == ButtonType.YES) {
+                try {
+                    controlador.eliminarPedido(numeroPedido);
+                    mostrarAlerta("Pedido eliminado correctamente.", Alert.AlertType.INFORMATION);
+                } catch (PedidoYaEnviadoExcepcion ex) {
+                    mostrarAlerta("No se puede eliminar: el pedido ya fue enviado.", Alert.AlertType.ERROR);
+                } catch (PedidoNoEncontradoExcepcion ex) {
+                    mostrarAlerta("Error: pedido no encontrado.", Alert.AlertType.ERROR);
+                }
             }
-        }
+        });
     }
 
-    public void mostrarPedidosEnviadosVista() {
-        if (controlador.getPedidosEnviados().isEmpty()) {
-            System.out.println("No hay pedidos enviados.");
-        } else {
-            System.out.println("----- PEDIDOS ENVIADOS -----");
-            for (Pedido pedido : controlador.getPedidosEnviados()) {
-                System.out.println(pedido);
-            }
-        }
+
+    private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo, mensaje, ButtonType.OK);
+        alert.showAndWait();
     }
-
-    public void mostrarPedidosPendientesPorClienteVista() {
-        teclado.nextLine();
-
-        System.out.print("Introduce el email del cliente: ");
-        String email = teclado.nextLine();
-
-        if (controlador.getPedidosPendientesPorCliente(email).isEmpty()) {
-            System.out.println("No hay pedidos pendientes para ese cliente.");
-        } else {
-            System.out.println("----- PEDIDOS PENDIENTES DEL CLIENTE -----");
-            for (Pedido pedido : controlador.getPedidosPendientesPorCliente(email)) {
-                System.out.println(pedido);
-            }
-        }
-    }
-
-    public void mostrarPedidosEnviadosPorClienteVista() {
-        teclado.nextLine();
-
-        System.out.print("Introduce el email del cliente: ");
-        String email = teclado.nextLine();
-
-        if (controlador.getPedidosEnviadosPorCliente(email).isEmpty()) {
-            System.out.println("No hay pedidos enviados para ese cliente.");
-        } else {
-            System.out.println("----- PEDIDOS ENVIADOS DEL CLIENTE -----");
-            for (Pedido pedido : controlador.getPedidosEnviadosPorCliente(email)) {
-                System.out.println(pedido);
-            }
-        }
-    }
-
 }
